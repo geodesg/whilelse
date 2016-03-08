@@ -50,7 +50,7 @@ This should be enough info to get you started.
 
 ## Your workspace
 
-The hosted application is at https://app.whilelse.com/
+The hosted application is at http://app.whilelse.com/
 
 Your local installation by default is at http://localhost:8888/
 
