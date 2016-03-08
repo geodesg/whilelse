@@ -1,0 +1,46 @@
+.posi-info
+  font-family: Monda, sans-serif;
+  line-height: 1em
+  background: #233
+  position: fixed
+  right: 0
+  top: 0
+  bottom: 0
+  width: 60em
+  padding: .5em
+
+  .item
+    margin-bottom: .25em
+    padding: .25em
+    &>*
+      display: inline-block
+      vertical-align: top
+    .type
+      color: #383
+      text-transform: lowercase
+    .id
+      color: #499
+    .class
+      color: #986
+      display: block
+    .data
+      color: #286
+      .row
+        display: block
+        .key
+          display: inline-block
+          width: 4.5em
+          text-align: right
+          margin-right: .25em
+          &:after
+            content: ": "
+        .value
+          color: darken(#286, 4)
+
+    &.node
+      width: auto
+      background: black
+    &.propt
+      background: #132323
+    &.prop
+      background: #1C2C2C

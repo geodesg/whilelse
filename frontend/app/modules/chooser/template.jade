@@ -1,0 +1,8 @@
+.chooser-view
+  .title= model.title
+  .options
+    each option in model.options
+      .option
+        span.key= f(option.key)
+        span.name= option.name
+

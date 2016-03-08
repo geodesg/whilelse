@@ -1,0 +1,136 @@
+normc = #ccc
+taskc = #bbb
+.posi-task-node
+  color: taskc
+.task-icon
+  content: ' '
+  display: inline-block
+  width: 6px
+  height: 3px
+  background: #44484f
+  //background: #479
+  border-radius: 3px
+  margin-right: 6px
+  margin-top: 4px
+  line-height: 1px
+  vertical-align: top
+  border: solid 2px transparent
+  &.task-status-d, &.task-status-done
+    background: #252
+  &.task-status-c, &.task-status-current
+    background: #CC0
+  &.task-status-s, &.task-status-started
+    background: #750
+  &.task-status-n, &.task-status-next
+    background: #785
+
+.task-status-done
+  color: mix(lighten(#252,1), white, 60%)
+.task-status-current > div > div > .posi-propt-description
+  color: mix(normc, #CC0)
+.task-status-started > div > div > .posi-propt-description
+  color: mix(normc, #750, 70%)
+.task-status-next > div > div > .posi-propt-description
+  color: mix(normc, #790, 70%)
+
+.posi-task-node>.full
+  display: inline-block
+.posi-task-node > .full > div > .indent
+  margin-bottom: 0
+
+.task-importance
+  font-size: 80%
+  //padding: 0 2px
+  line-height: 12px
+  border-radius: 4px
+  text-transform: uppercase
+  margin-top: 1px
+  margin-left: 2px
+.task-importance-a
+  //background: #522
+  color: #E88
+.task-importance-b
+  //background: #542
+  color: #DA3
+.task-importance-c
+  //background: #452
+  color: #AB3
+.task-importance-d
+  // background: #454
+  color: #896
+
+estc1 = #698
+estc2 = #DA8
+
+.task-estimate
+  font-size: 90%
+  //padding: 0 2px
+  line-height: 12px
+  border-radius: 4px
+  margin-top: 1px
+  margin-left: 2px
+  color: #888
+
+.task-estimate-h
+  color: estc1
+
+.task-estimate-d
+  color: mix(estc1, estc2, 75%)
+
+.task-estimate-w
+  color: mix(estc1, estc2, 50%)
+
+.task-estimate-m
+  color: mix(estc1, estc2, 25%)
+
+
+.task-estimate-y
+  color: estc2
+
+notec = #88909F
+.posi-note-node
+  color: notec
+
+  .note-icon
+    content: ' '
+    display: inline-block
+    width: 2px
+    height: 2px
+    background: darken(notec, 30)
+    border-radius: 2px
+    margin-right: 6px
+    margin-left: 3px
+    margin-top: 5px
+    line-height: 1px
+    vertical-align: top
+    border: solid 1px transparent
+
+.task-marks
+  width: 2.5em
+  text-align: right
+  padding-right: 6px
+  //background: #272727
+
+.posi-task-node > .full > div > .indent
+  padding-left: 3.3em
+
+.posi-task-node.over > .full > div > .posi-nav-line > div > div
+  > .task-icon
+    // background: #fff
+    box-shadow: 0 0 1px 1px #ccc
+  > .posi-propt-description
+    color: white
+    background: #303037
+    border-radius: 0.2em
+    text-shadow: 0px 0px 1px #ccc
+    //box-shadow: 0 0 1px 1px  #666
+.posi-note-node.over > .full > .posi-nav-line > div > div
+  > .note-icon
+    //background: #fff
+    box-shadow: 0 0 1px 1px #ccc
+  > .posi-propt-description
+    //color: lighten(notec, 20)
+    color: white
+    background: #303037
+    text-shadow: 0px 0px 1px #ccc
+    border-radius: 0.2em

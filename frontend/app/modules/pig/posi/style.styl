@@ -1,0 +1,412 @@
+@require 'app/styles/settings'
+
+.posi
+  a
+    text-decoration: none
+    color: inherit
+
+.posi-node
+  font-family: Monda, sans-serif;
+  line-height: 120%
+
+  //padding: 0 0.5em 0 0
+  border-radius: 0.2em
+  //background: #222
+  //border-left: solid 0.5em #272727
+  display: inline-block
+
+
+  .head
+    &> .id
+      margin-right: 0.2em
+      color: #777
+      &:after
+        content: "."
+    //background-color: #333
+    //border-radius: 0 .5em 0.25em 0
+    &> .name
+      font-weight: bold
+    &> .type
+      color: #798
+      &:before
+        content: "<"
+      &:after
+        content: ">"
+  .body, .indent
+    padding-left: 2em;
+    margin-bottom: 0.5em
+
+
+  .propt
+    margin: 0.1em 0
+    &>.label, &>.values
+      display: inline-block
+      vertical-align: top
+    &>.label
+      margin-right: 0.5em
+
+  .attr, .desc
+    max-width: 20em
+
+  .linkarrow
+    display: inline
+  .reft > .posi-node
+    display: inline-block
+    vertical-align: top
+  .symbol
+    color: #87C
+
+  .desc
+    color: #aa9
+    font-size: 90%
+    max-width: 60em
+
+  .group
+    margin-top: .2em
+    margin-bottom: .5em
+    display: inline-block
+    vertical-align: top
+    margin-right: 0.5em
+    background: #333
+    padding: 0.2em 0.4em
+    border-radius: 0.3em
+    border: solid .1em #444
+    > .group-head
+      font-weight: bold
+      margin-bottom: 0.5em
+    //&:hover
+      //border-color: #456
+      //background: #234
+
+  .posi-node-full
+    border: solid 1px transparent
+    margin: -1px
+
+  .blank
+    min-width: 2em
+    min-height: 1em
+    background: transparent
+    display: inline-block
+    .blank-box
+      min-width: 2em
+      min-height: 1em
+      display: inline-block
+
+  .blank-required .blank-box
+    background: dark?#411:#C99
+  .blank-optional .blank-box
+    background: dark?#33383F:#CCC
+
+
+.posi
+  margin-bottom: 30em
+
+  > .posi-node-full
+    background: inherit
+    border-color: transparent
+
+  //.blank-optional
+    //display: none
+    //&.visible
+      //display: inline-block
+
+  .posi-propt-bloat
+    display: none
+  .bloated.posi-propt-bloat
+    display: block
+  .posi-line > .bloated.posi-propt-bloat
+    display: inline-block
+
+  .posi-prop-bloat
+    display: none
+  //.bloated .posi-prop-bloat
+    //display: block
+  //.bloated .posi-prop-bloat.posi-line-item
+    //display: inline-block
+
+  .bloated.posi-prop-bloat
+    display: block
+  .posi-line > .bloated.posi-prop-bloat
+    display: inline-block
+
+
+.posi-line
+  display: block
+  > *
+    display: inline-block
+    vertical-align: top
+
+.posi-block > *
+  display: block
+
+cursor-color=dark?#494:#9AF
+.posi-cursor
+  > .edge-v
+    position: absolute
+    background: cursor-color
+    //background: linear-gradient(0deg, cursor-color, transparent, cursor-color)
+  > .edge-h
+    position: absolute
+    background: cursor-color
+    //background: linear-gradient(90deg, cursor-color, transparent, cursor-color)
+
+.promise-vis
+  background: #EE8
+  color: black
+  margin-bottom: 1px
+  font-size: 9px
+  &.resolved
+    background: #8E8
+  &.rejected
+    background: #E88
+
+#promise-pane
+  position: fixed
+  top: 0
+  right: 0
+  bottom: 0
+  width: 30em
+
+#debug-cursor
+  position: absolute
+  background: #EE8
+  opacity: 0.4
+
+.panes
+  > .pane
+    display: inline-block
+    vertical-align: top
+    border-left: solid 1px (dark?#222:#CCC)
+    min-height: 5em
+    margin-left: 1em
+    padding-left: 1em
+    &:first-child
+      border-left: none 0
+      margin-left: 0
+      padding-left: 0
+
+.prog-symbol
+  color: #86A
+
+.prog-literal
+  color: #A76
+
+.prog-data-type
+  color: #694
+
+.prog-variable
+  color: #BB6
+  //font-weight: bold
+
+.prog-function
+  color: #6BB
+
+.prog-struct,
+.prog-field
+  color: #597
+
+
+.x120
+  font-size: 120%
+  line-height: 88%
+.x150
+  font-size: 150%
+  line-height: 78%
+.x200
+  font-size: 200%
+  line-height: 68%
+
+.paren
+  min-height: 1em
+  border: solid 1px rgba(#678, 0.5)
+  border-width: 0 1px
+  margin: -0.125em 0.125em
+  padding: 0.125em 0.25em
+  border-radius: 0.5em
+
+web-app-color-1=dark?#447:#88C
+web-app-color-2=dark?#434:#CBA
+web-app-color-3=mix(web-app-color-2, web-app-color-1)
+
+.web-endpoint-method
+  background: web-app-color-2
+  border-radius: 0.2em
+  padding: 0.4em
+  min-width: 4em
+
+.web-subpath
+  background: web-app-color-1
+  border-radius: 0.2em
+  padding: 0.4em
+  //min-width: 4em
+  > .posi-propt-value
+    display: inline-block
+
+.web-endpoint-content
+  border: solid 0.4em web-app-head-color
+  border-radius: 0.2em
+  padding: 0.4em
+
+.web-route
+  background: dark?darken(web-app-color-3, 8):lighten(web-app-color-3, 8)
+  color: web-app-color-3
+  border-radius: 0.2em
+  padding: 0.4em
+  margin-right: 0.2em
+
+.posi-propt-endpoint,
+.posi-propt-endpoint > .posi-line > .posi-line-item > .posi-ref,
+.posi-propt-subpath
+  margin-bottom: 0.25em
+
+.posi-propt-subpath
+  white-space: nowrap
+
+.header
+  background: #222
+  padding: 0.5em
+  border-radius: 0.2em
+  margin-bottom: 0.4em
+  vertical-align: bottom
+  line-height: 150%
+  .posi-name
+    font-size: 120%
+
+web-app-head-color=dark?#223:#E0E0E7
+.web-app-header
+  background: web-app-head-color
+
+.posi-app-node
+  border: solid 2px web-app-head-color
+  //background: darken(web-app-head-color, 8)
+
+
+.template-header
+  background: #131
+
+.posi-template-node
+  background: darken(#131, 8)
+
+.posi-tag-node > .full > .head
+  white-space: nowrap
+  &:before
+    content: "<"
+  &:after
+    content: ">"
+  &:before, &:after
+    color: #141
+  &>*
+    display: inline-block
+    vertical-align: top
+    height: 1.2em
+
+.posi-propt-tag_type
+  color: #494
+
+.posi-propt-element > .posi-line > .posi-line-item > .posi-ref
+  margin: 0.2em 0
+  &:before
+    content: "•"
+    color: #232
+    display: inline-block
+    margin-right: 0.2em
+  &:before, >*
+    display: inline-block
+    vertical-align: top
+
+.posi-propt-attribute_name
+  color: #497
+.posi-propt-attribute_value
+  color: #8A9
+
+.posi-propt-text_value
+  color: #BBA
+
+keyword-color = dark?#567:#45B
+.keyword
+  color: keyword-color
+
+
+.posi-propt-attr_type,
+.posi-propt-ref_type
+  width: 8em
+  overflow: hidden
+.posi-schema_ref-node, .posi-schema_attr-node
+  .keyword
+    display: inline-block
+    width: 3em
+
+
+node-type-color=dark?#204030:#D0E0D0
+.posi-node_type-node.posi-node-full
+  //background: node-type-color
+  //border: solid 1px darken(node-type-color, 8)
+  //padding: .25em
+  margin: .25em .25em .25em 0
+  .card
+    //padding: .25em
+
+//.posi-name
+  ////font-size: 120%
+  //font-weight: bold
+
+.posi-handle
+  height: 8px
+  width: 8px
+  display: inline-block
+  margin-right: 4px
+  margin-left: 4px
+  > .inner
+    display: block
+    width: 8px
+    height: 8px
+    background: dark?#393939:#9a9
+    border-radius: 2px
+
+//.posi-handle-node_type
+  ////background: #242
+  //color: #7a7
+  //font-size: 9px
+  //&:before
+    //content: 'NT'
+    //position: relative
+
+//.posi-propt-declaration
+  //border-left: solid 1px darken(keyword-color, 10)
+  //padding-left: 0.5em
+  ////margin-left: 2em
+  //min-height: 2em
+
+.posi-disable-node > .full > .posi-line > .posi-propt-item > .posi-ref > .posi-node
+  opacity: 0.5
+  //*
+    //color: #999 !important
+  //border-left: dashed 1px #999
+  //padding-left: 3px
+
+.prog-description, .desc
+  color: #776
+  font-size: 90%
+  margin-top: .2em
+  margin-bottom: -.2em
+
+.posi-node_literal-node
+  background: #112C2F
+  > .full > .posi-line
+    > .name
+      font-weight: bold
+    > .type
+      color: #798
+      &:before
+        content: "<"
+      &:after
+        content: ">"
+
+.posi-function-node > .full > .posi-major > .posi-line
+  > .head
+    margin-right: -2em
+  > .rig
+    padding-left: 2em
+
+.over
+  background: #303740

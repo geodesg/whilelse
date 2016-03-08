@@ -1,0 +1,28 @@
+
+.property-editor
+  border: solid 1px #222
+  .head
+    background: #070707
+    font-size: smaller
+  .row
+    border-bottom: solid 1px dark?#222:#ccc
+    padding: .2em 0.5em 0 0.5em
+    .label, .field
+      display: inline-block
+      overflow: hidden
+      line-height: 1em
+      vertical-align: top
+    .label
+      margin-right: 0.5em
+      margin-top: .5em
+      font-size: 0.9em
+      color: #456
+      width: 5em
+    .field
+      min-height: 1em
+      max-height: 5em
+      margin: 0.4em 0 0.4em 1em
+      width: 23em
+
+    &.current
+      background: dark?#333:#FFF

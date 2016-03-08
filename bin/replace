@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require 'active_support/core_ext'
+
+a, b = ARGV
+
+NilClass.class_eval do
+  def each_line
+  end
+end
+
+def cmd(s)
+  puts s
+  `#{s}`
+end
+
+def replace_in_file(fn, a, b)
+  contents = File.read(fn)
+  if contents.include?(a)
+    puts "#{fn}"
+    contents.gsub!(a, b)
+    File.open(fn, 'w') { |f|
+      f.write(contents)
+    }
+  end
+end
+
+search_dirs = %w(apps bin coffeelib config experiments modules monkey_patches nodecode scripts spec tasks ../curium/nes3/app)
+
+search_dirs.each do |dir|
+  Dir["./#{dir}/**/*"].each do |fn|
+    if File.file?(fn)
+      replace_in_file(fn, a, b)
+    end
+  end
+end
+
+
+

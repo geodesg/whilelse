@@ -1,0 +1,65 @@
+body
+  margin: 0
+  padding: 0
+
+#main, #sidebar, #keyboard
+  padding: 1em
+  position: fixed
+
+sidebarwidth=30em
+keyboardheight=0em
+
+#main
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+  //background: linear-gradient(to left,
+  //  rgba(8,12,13,1) 0%,
+  //  rgba(1,13,1,1) 100%);
+
+#main
+  right: sidebarwidth
+
+#sidebar
+  display: block
+  background: #333
+  top: 0
+  right: 0
+  bottom: 0
+  width: sidebarwidth
+  overflow: auto
+
+#keyboard
+  display: none // I don't need it now
+  background: #0a0a0a
+  height: keyboardheight
+  right: 0
+  bottom: 0
+  left: 0
+
+  .key
+    width: 1cm
+    height: 1cm
+    line-height: 1cm
+    text-align: center
+    vertical-align: center
+    background: #333
+
+    background: linear-gradient(180deg, #444, #222, #222, #222, #222, #111)
+    border: solid 1px #000
+    border-radius: 0.3cm
+
+  .arrows
+    .key
+      position: absolute
+      &.down, &.right, &.left
+        bottom: 0.2cm
+      &.up
+        bottom: 1.3cm
+      &.right
+        right: 0.2cm
+      &.down, &.up
+        right: 1.3cm
+      &.left
+        right: 2.4cm

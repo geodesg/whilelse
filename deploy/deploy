@@ -1,0 +1,94 @@
+#!/bin/bash
+trap "exit" INT
+
+source "$(dirname "$0")/config.local" # .gitignore'd config
+
+echo $host
+exit
+
+s=$1
+
+if [[ $s == "-h" ]] || [[ $s == "--help" ]] || [[ $s == "help" ]] || [[ $s == "-help" ]]; then
+  echo "Usage:"
+  echo
+  echo "  deploy [component]"
+  echo
+  echo "Components:"
+  echo "  * st - store app"
+  echo "  * pl - ploy app"
+  echo "  * st - static files"
+  echo "  * sf - static files - skip build"
+  echo "  * su - supervisor"
+  echo "  * ng - nginx"
+fi
+
+if [[ -z $s ]] || [[ $s == 'st' ]] || [[ $s == 'pl' ]]; then
+  # APPS
+  echo
+  echo "Pushing code to server..."
+  git push origin master
+  ssh root@$host 'cd $deploydir/ && git reset --hard'
+fi
+
+if [[ -z $s ]] || [[ $s == 'st' ]]; then
+  # stSPROSIUM
+  echo
+  echo "Setting up stsprosium..."
+  ssh root@$host 'cd $deploydir/store && bundle install'
+fi
+
+if [[ -z $s ]] || [[ $s == 'pl' ]]; then
+  # PLOY
+  echo
+  echo "Setting up Ploy..."
+  ssh root@$host 'cd $deploydir/ploy && bundle install'
+fi
+
+if [[ -z $s ]] || [[ $s == 'st' ]] || [[ $s == 'sf' ]]; then
+  # STATIC FILES
+  cd frontend
+  if [[ -z $s ]] || [[ $s == 'st' ]]; then
+    echo
+    echo "Building assets..."
+    brunch build --production
+  fi
+  echo
+  echo "Uploading & installing assets..."
+  cd tmp/
+  tar czvf public.tgz public
+  cd ..
+  scp tmp/public.tgz root@$host:/root/public.tgz
+  ssh root@$host 'cd /srv/stimulus && tar xzvf /root/public.tgz'
+  cd ..
+fi
+
+if [[ -z $s ]] || [[ $s == 'su' ]]; then
+  # SUPERVISOR
+  echo
+  echo "Uploading supervisord.conf & restarting all apps..."
+  scp deploy/supervisord.conf root@$host:/etc/supervisord.conf
+  ssh root@$host 'supervisorctl reload'
+else
+  if [[ $s == 'st' ]]; then
+    echo
+    echo "Restarting stsprosium..."
+    ssh root@$host 'supervisorctl restart stsprosium'
+  fi
+
+  if [[ $s == 'pl' ]]; then
+    echo
+    echo "Restarting Ploy..."
+    ssh root@$host 'supervisorctl restart ploy'
+  fi
+fi
+
+
+if [[ -z $s ]] || [[ $s == 'ng' ]]; then
+  # NGINX
+  echo "Uploading Nginx vhost config & reloading..."
+  scp deploy/nginx.conf root@$host:/etc/nginx/sites-available/$host
+  ssh root@$host 'service nginx reload'
+fi
+
+echo "Finished."
+

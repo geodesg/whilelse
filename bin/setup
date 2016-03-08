@@ -1,0 +1,6 @@
+( cd frontend && npm install )
+( cd ploy && bundle install )
+( cd async-convert && npm install && lsc -co gen src )
+( cd store && bundle install && npm install && lsc -co gen src )
+
+

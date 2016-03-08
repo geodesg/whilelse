@@ -1,0 +1,43 @@
+#!/bin/bash
+trap "exit" INT
+set -e
+set -v
+
+source "$(dirname "$0")/config.local" # .gitignore'd config
+
+ssh root@$deployhost 'apt-get update -y && apt-get dist-upgrade -y'
+ssh root@$deployhost 'apt-get install git ruby ruby-dev python python-pip -y'
+
+ssh root@$deployhost 'apt-get install nginx -y || true' # continue script even if this command fails
+scp deploy/nginx-default.vhost.conf root@$deployhost:/etc/nginx/sites-available/default # The default vhost has IPv6 stuff in it which causes error on Scaleway, overwrite with my patched default config
+
+ssh root@$deployhost 'curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -' # Get Node.JS 0.12
+ssh root@$deployhost 'sudo apt-get install -y nodejs'
+
+ssh root@$deployhost 'pip install supervisor'
+ssh root@$deployhost 'gem install bundler'
+ssh root@$deployhost 'npm install -g livescript brunch@1.8.5'
+
+for fn in nginx.vhost.conf supervisord.conf supervisord.init; do # Replace placeholders - "file" -> "file~"
+  cat deploy/$fn \
+    | sed "s|{{DEPLOYHOST}}|$deployhost|g" \
+    | sed "s|{{DEPLOYDIR}}|$deploydir|g" \
+    > deploy/$fn~
+done
+
+scp "./deploy/nginx.vhost.conf~" "root@$deployhost:/etc/nginx/sites-available/$deployhost"
+scp "./deploy/supervisord.conf~" "root@$deployhost:/etc/supervisord.conf"
+scp "./deploy/supervisord.init~" "root@$deployhost:/etc/init.d/supervisord"
+
+ssh root@$deployhost "ln -s /etc/nginx/sites-available/$deployhost /etc/nginx/sites-enabled/$deployhost"
+
+gem install git-deploy
+git remote add production "root@$deployhost:/srv/whilelse" || true
+git deploy setup -r "production" || true
+git push production master
+
+ssh root@$deployhost "(cd $deploydir && ./bin/setup)"
+ssh root@$deployhost "(cd $deploydir/frontend && brunch build --production)"
+
+ssh root@$deployhost "(cd $deploydir && supervisord -c /etc/supervisord.conf)"
+ssh root@$deployhost 'nginx -s reload'

@@ -1,0 +1,11 @@
+
+RUNNING
+
+    Compile:
+
+        fsw lsc -wco gen src
+
+    Run app:
+
+        fsw node gen/main.js
+

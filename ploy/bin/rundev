@@ -1,0 +1,5 @@
+#!/bin/bash
+export DEPLOY_PROTOCOL=http:
+export DEPLOY_HOSTNAME=whilelse.local
+#shotgun --server=puma config.ru --port 3023
+bundle exec puma -p 3023

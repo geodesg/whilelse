@@ -1,0 +1,4 @@
+mkdir -p tmp/nginx
+cat dev/nginx-template.conf | sed "s|{{PWD}}|$(pwd)|g" > dev/nginx.conf
+
+exec nginx -c $(pwd)/dev/nginx.conf

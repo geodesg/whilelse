@@ -1,0 +1,56 @@
+
+--------------------------------------------------------------------------------
+
+CORE
+  - ni           :: ID
+  - node-type    :: Node (optional, defaults to self)
+  - name         :: String (optional)
+
+COMP
+  - ri           :: ID (issuable)
+  - source       :: Node
+  - ref-type     :: Node
+  - before-ref   :: Ref (optional, defaults to end)
+  - ni           :: ID (issuable)
+  - node-type    :: Node
+  - name         :: String (optional)
+  - attrs        :: Hash<ID,Scalar> (optional)
+
+LINK
+  - source       :: Node
+  - ref-type     :: Node
+  - target       :: Node
+  - before-ref   :: Ref (optional)
+
+MOVE
+  - node         :: Node
+  - new-parent   :: Node
+  - new-ref-type :: Node
+  - before-ref   :: Ref (optional, defaults to end)
+
+NAME
+  - node         :: Node
+  - name         :: String
+
+NTYP
+  - node         :: Node
+  - node-type    :: Node
+
+ATTR
+  - node         :: Node
+  - attr-type    :: Node
+  - value        :: Scalar
+
+RTYP
+  - ref          :: Ref
+  - new-ref-type :: Node
+
+DEL
+  - node         :: Node
+  [must not have outgoing refs or incoming refs other than from the parent]
+
+ULNK
+  - ref          :: Ref
+  [must have dep=false]
+
+--------------------------------------------------------------------------------

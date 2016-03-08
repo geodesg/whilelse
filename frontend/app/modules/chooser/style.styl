@@ -1,0 +1,32 @@
+.chooser-view
+  border-radius: 2px
+  padding: 2px
+  max-width: 15em
+  background: dark?#111:#CDE
+  color: dark?#999:#000
+  .option
+    margin: 2px 0
+    background: dark?#222:#EEF
+    .key
+      font-family: Andale Mono, Courier New, fixed
+      font-size: 105%
+      padding: 0.1em
+      display: inline-block
+      width: 2em
+      text-align: center
+      background: dark?#333:#ABD
+      color: dark?white:black
+      margin-right: .5em
+      text-align: center
+      padding-right: 0.25em
+      text-transform: capitalize
+    .key, .name
+      display: inline-block
+      vertical-align: top
+
+    .name
+      width: 10em
+      overflow: hidden
+
+.anchored .chooser-view
+  position: inherit !important

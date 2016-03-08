@@ -1,0 +1,2 @@
+mkdir -p tmp
+exec supervisord -c dev/supervisord.conf -n

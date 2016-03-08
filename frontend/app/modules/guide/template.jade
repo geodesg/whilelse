@@ -1,0 +1,109 @@
+h2 Guide
+
+h3 Keyboard commands
+
+h4 Legend
+ul
+  li [S-X] - Shift+X
+  li [C-X] - Control+X
+  li [A-X] - Alt+X
+  li [M-X] - Meta+X (Command/Win key)
+  li [C-A-S-X] - Control+Alt+Shift+X
+
+h4 Global
+ul
+  li [B] or [C-right] - navigate back
+  li [S-B] or [C-left] - navigate forward
+  li [S] - search node and navigate...
+  li [S-G] - global commands...
+  li [C-H] - help sidebar
+  li [C-A-L] - log out
+
+h4 Editor
+ul
+  li [S] - search
+  li [G] - go/navigate to... [P] parent
+  li [V] - change view...
+  li [B] - navigate back
+
+  li [U] - undo
+
+  li [X] - cut node
+  li [P] - paste node into blank
+  li [D] - delete node
+  li [C-C] - copy
+  li [C-D] - duplicate
+  li [S-up] - move node backward within list
+  li [S-down] - move node forward within list
+  li [S-W] - unwrap node (i.e. replace parent with it)
+
+  li [Esc] - move cursor to parent
+  li [Y] - move cursor to an major ancestor (statement, function, module, etc)
+  li [H] - move cursor to child
+  li [J] - move cursor to next sibling
+  li [K] - move cursor to previous sibling
+  li [C] - move cursor...
+
+  li [F] - fold/unfold
+
+  li [S-J] - generate JavaScript code...
+  //-li [C-J] - generate JavaScript code into itself
+
+  //-li [S-I] - show html debug info
+  //-li [S-A-I] - hide html debug info
+  //-li [A-S-D] - clear local storage
+
+
+
+h4 Expression/Statement
+ul
+  li [I] - insert before statement
+  li [\] - start search and apply result to expression
+  li <kbd>[</kbd> - index an array
+  li [.] - field/method of struct/class
+  li [(] - call function expression
+  li <em>symbol</em> - apply operator to expression
+
+h4 Function
+ul
+  li [S-M] - edit native flag
+  li [S-E] - edit native code
+  li [S-A] - edit async flag
+  li [S-T] - navigate to test (creates test if none)
+
+h4 Function call
+ul
+  li [S-O] - open/navigate to function definition
+  li [S-P] - set/edit parameter
+
+h4 New (class instantiation)
+ul
+  li [S-L] - complete parameters
+  li [S-P] - set/edit parameter
+
+h4 Search/Entry box
+ul
+  li [C-V] - create variable & insert reference
+  li [C-F] - create function & insert function call
+  li [C-N] - native function call
+  li [C-E] - native expression
+  li [C-P] - native property
+
+h3 Creating a function
+ol
+  li select your 'workspace<container>' node
+  li Press [A] to add something to the module
+  li Press [C] to select 'contains'
+  li Type "func" in the search box, then press [Enter]
+  li Enter the function name, then press [Enter]
+  li Enter a parameter name, [Enter]
+  li Select data type, press [I] for integer
+  li Repeat the last 2 steps for each parameter, or press [Tab]
+  li Select return type, press [I] for integer, or [Tab] to skip
+  li If you want to declare a variable or function, press [V] or [F], otherwise press [Tab] to skip
+  li Start typing 'ret' and press [Enter] when the 'return' command is selected
+  li Type 'a' and press [Enter] when the 'a' variable is selected
+  li Type '+' then press [Enter]
+  li Type 'b' then press [Enter]
+  li Press [Y] [Y] to select the function
+  li Press [S-J] [J] to generate JavaScript code and display it

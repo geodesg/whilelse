@@ -1,0 +1,65 @@
+Node type Handler API
+---------------------
+
+.select-as-target({$el,parent})::promise
+
+  Called when the user might want to create a component
+  or a link with a target type.
+
+  resolve:
+    {node-type,apply-cb} - user wants to create a node
+      - apply-cb(node): function to be called when the component was created;
+                        this is a chance for the handler to apply any
+                        node-type-specific information that has been selected.
+
+    {target} - user wants to create a link to `target`
+
+
+.apply-surch-result(node, result)
+
+  Called on the handler for search-result.handler-node.
+
+.edit({node,$el})::promise
+
+  Edit node (user pressed 'E')
+
+.stop-on-new-node
+
+  After a new node has been created, select it and
+  stop doing anything else, like completing
+  children or jumping to any queued action.
+  (handled in posi.complete-new-node)
+
+#idea
+.select-after-create::boolean (true)
+
+  Select node after created.
+  This enables the node to be modified, e.g.
+  in the case prog expr the user can apply operators to it.
+
+
+Module Handler API
+------------------
+
+...
+
+
+
+
+Function Types
+--------------
+
+* Static
+
+  - defined within a module/application/lib
+  - visible everywhere, the definition is included automatically
+
+* Dynamic
+
+  - defined within an expression
+  - used as a value
+
+* Local/Scoped
+
+  - defined within another function
+  - visible within the function where it's defined

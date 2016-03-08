@@ -1,0 +1,35 @@
+.posi-node
+  .head
+    span.id= node.ni
+    span.name= node.name()
+    span= " "
+    span.type= node.type().name()
+  if mode != 'link'
+    .body
+      .desc= node.a(n.desc)
+      each sattr in node.type().schema().attrs()
+        if sattr.at != n.name && sattr.at != n.desc
+          .attrt.propt
+            .label
+              = sattr.at.name()
+              = ":"
+            .values
+              .attr.prop
+                = node.a(sattr.at)
+      each sref in node.type().schema().refs()
+        if sref.rt != n.type
+          .reft.propt
+            .label
+              = sref.rt.name()
+              = ":"
+            .values
+              each ref in node.refsWithType(sref.rt)
+                - target = ref.target()
+                .ref.prop
+                  if ref.dep()
+                    != renderNode(target, 'link')
+                  else
+                    span.linkarrow.symbol= "→"
+                    != renderNode(target, 'link')
+
+  //pre= node.type().schema().inspect()

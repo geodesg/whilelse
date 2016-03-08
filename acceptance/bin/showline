@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+s = ARGV[0].strip.split(' ')[0]
+if s =~ /^(.*):(\d+)$/
+  url, line = $1, $2
+  line = line.to_i - 1
+  require 'open-uri'
+  lines = nil
+  open(url) do |f|
+    lines = f.readlines
+  end
+  #lines = contents.split(/(\r\n|\r|\n)/)
+  n = (ARGV[1] || 10).to_i
+  puts lines[(line - n) .. (line - 1)].map { |l| "   #{l}" }
+  puts "=> #{lines[line]}"
+  puts lines[(line + 1) .. (line + n)].map { |l| "   #{l}" }
+
+end
+

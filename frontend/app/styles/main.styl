@@ -1,0 +1,241 @@
+@require './settings'
+
+@font-face
+  font-family: Monda;
+  src: url(/fonts/Monda-Regular.ttf);
+  font-style: normal;
+  font-weight: 400;
+
+@font-face
+  font-family: Monda Bold;
+  src: url(/fonts/Monda-Bold.ttf);
+  font-style: bold;
+  font-weight: 700;
+
+body
+  background: dark?#202020:#EEE//#696a70
+  color: dark?#CCC:#22w
+  margin: 4px
+  font-size: 13px
+  //background: linear-gradient(to left,
+    //rgba(9,9,9,1) 0%,
+    //rgba(6,6,6,1) 100%);
+
+a
+  color: dark?#79C:#03C
+
+body, input, textarea, ul, ol, li, td, th, dl, dd, dt
+  font-family: Monda, sans-serif;
+
+input[type=text], textarea
+  background: dark?#333:#EEE
+  color: dark?#EEE:#333
+  border: solid 1px #777
+  border: none 0
+
+body.option-generated #main
+  border-left: solid 10px #622
+
+.nodes
+  -webkit-column-width: 15em
+  -moz-column-width: 15em
+  column-width: 15em
+.node
+  break-inside: avoid-column
+  -webkit-column-break-inside: avoid
+  page-break-inside: avoid
+  width: 30em
+  border-radius: 0.2em
+  background: dark?#111:#DDD
+  color: dark?#999:#000
+
+  &-id
+    color: #395
+  &-name
+    font-weight: bold
+    color: nodecolor
+  &-type
+    color: nodetypecolor
+    &:before
+      content: "‹"
+      color: darken(nodetypecolor, 20)
+    &:after
+      content: "›"
+      color: darken(nodetypecolor, 20)
+
+  &-mini
+    display: inline-block
+    border-radius: 0.2em
+    .space
+      display: inline-block
+      width: 0.1em
+    //background: linear-gradient(180deg, #171717, #101010, #101010, #101010, #101010, #000)
+    padding: 0.1em 0.3em
+
+
+.dialog
+  position: fixed
+  top: 2em
+  left: 2em
+  //background: #EE9
+  border: solid 1px #999
+  //border-radius: 2px
+  box-shadow: 0px 0px 2px 2px #345;
+
+  //background: #595
+  //color: #000
+
+
+#node-page
+  &>.components
+    &>.component
+      display: inline-block
+      vertical-align: top
+
+
+missingcolor=#833
+.missing
+  color: missingcolor
+  text-style: italic
+  font-size: smaller
+  &:before
+    content: '('
+    color: darken(missingcolor, 10)
+  &:after
+    content: ')'
+    color: darken(missingcolor, 10)
+
+.cursor
+  min-width: 0.7em
+  display: inline-block
+&.cursor:before
+  content: "▸"
+  color: dark?#203750:#BBB
+  font-size: 80%
+  line-height: 0.8em
+&.current>.cursor:before
+  content: dark?"»":"▸"
+  color: dark?#FF0:#000
+  font-size: 120%
+  line-height: 0.8em
+
+.highlighted-json
+  font-family: Andale Mono
+  font-size: 10px
+  color: #777
+  *
+    display: inline-block
+    max-width: 20em
+    vertical-align: top
+  .string
+    color: #696
+  .number
+    color: darkorange
+  .boolean
+    color: #559
+  .null
+    color: #955
+  .key
+    color: #363
+
+
+.flash
+  position: fixed
+  bottom: 1em
+  left: 20%
+  right: 20%
+  font-size: 1.2em
+  text-align: center
+  padding: 0.5em
+  background: rgba(63,63,63,0.8)
+  color: #CCC
+  border-radius: 0.8em
+  letter-spacing: .8px
+
+.flash-forbidden
+  background: #C30
+
+pre.error
+  font-family: Andale Mono
+  color: #C33
+  font-size: 9px
+  margin: 0
+  padding: 0
+
+#status
+  position: fixed
+  left: 0
+  bottom: 0
+  padding: .2em .5em
+  background: #122
+  color: #999
+  border-top-right-radius: .5em
+
+.CodeMirror
+  font-family: Monaco, Andale Mono
+  font-size: 9px
+
+.flashing
+  background: white !important
+
+#show-me-label
+  font-size: 14px
+  color: black
+  position: absolute
+  background: yellow
+  height: 20px
+  padding: 0 .5em
+  line-height: 20px
+
+
+.preformatted
+  white-space: pre
+
+#messages
+  position: fixed
+  top: 0.5em
+  right: 0.5em
+
+  .message
+    max-width: 40em
+    margin: auto
+    background: rgba(127, 127, 64, 0.8)
+    font-size: 120%
+    color: white
+    display: block
+    margin-bottom: .5em
+    padding: 1em
+    border-radius: 0.4em
+    text-shadow: 1px 1px 2px black;
+    &.error
+      background: rgba(192, 32, 32, 0.8)
+    &.success
+      background: rgba(32, 192, 32, 0.8)
+
+
+#textarea-popup
+  textarea
+    position: fixed
+    top: 1em
+    left: 1em
+    width: 94%
+    height: 90%
+    background: #233
+    color: #DDD
+    font-family: Monda
+    line-height: 1em
+    padding: .5em
+    border: solid 4px #344
+
+markersize=14px
+.marker
+  position: absolute
+  min-width: markersize
+  height: markersize
+  background: rgba(80, 99, 92, 1)
+  color: #FFF
+  text-align: center
+  line-height: markersize
+  border: solid 1px #999
+  border-radius: 2px
+  font-weight: bold
