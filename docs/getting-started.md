@@ -215,8 +215,8 @@ methods. You can use `this.` to reference a property or a method.
 Feel free to experiment.
 
 Here's a real example of a class, which is part of the implementation of
-Whilelse: [Node class](https://app.whilelse.com/posi/frontend/acHEu1BNsqsF)
-([Frontend document](https://app.whilelse.com/posi/frontend)).
+Whilelse: [Node class](http://app.whilelse.com/posi/frontend/acHEu1BNsqsF)
+([Frontend document](http://app.whilelse.com/posi/frontend)).
 
 You can unfold the methods and compubox properties with `F`, and open
 nodes in a new view with `O`.
