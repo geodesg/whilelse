@@ -1,5 +1,5 @@
 // Usage:
-//   node runner.js {run|watch}
+//   node runner.js {run|watch} {parallel|serial}
 //
 console.log("Acceptance Test Runner");
 var fs = require('fs');
@@ -11,7 +11,8 @@ var path = require('path');
 var last_test = null;
 
 var argWatch    = process.argv[2] == 'watch'
-//var argParallel = process.argv[3] == 'parallel' TODO: implement serial running
+var argParallel = process.argv[3] == 'parallel'
+var maxRunning = parseInt(process.argv[3] || "4");
 
 function run(command, args, callback) {
   console.log(command, args.join(' '));
@@ -40,26 +41,101 @@ function run_test_cached(name, callback){
   p.stdout.on('data', function(data){ output += data; });
   p.stderr.on('data', function(data){ output += data; });
   p.on('close', function(code){
-    console.log(output + "Exit: " + code);
-    callback(code == 0 ? null : "exit code " + code)
+    //console.log(output + "Exit: " + code);
+    callback(
+      (code == 0 ? null : "exit code " + code),
+      output
+     )
   });
 };
 
-function run_test_remember_failing(test_path) {
-  run_test_cached(test_path, function (err) {
+function run_test_remember_failing(test_path, finishedCb) {
+  run_test_cached(test_path, function (err, output) {
     if (err) {
       last_test = test_path;
     }
+    if (finishedCb) {
+      finishedCb(err, output);
+    }
   });
 }
-function run_all() {
-  console.log("Running all tests in paralllel...")
+function run_all(finishCb) {
+  console.log("Running all tests, " + maxRunning + " at a time...")
   dir = 'gen/tests';
   fs.readdir(dir, function(err, files){
-    var i, len, f;
+    var i, len;
+    var steps = [], stepIndex = -1, running = 0, failed = 0;
     for (i = 0, len = files.length; i < len; ++i) {
-      f = files[i];
-      run_test_remember_failing(dir + "/" + f);
+      (function() {
+        var f = files[i];
+        var index = i;
+        steps.push({
+          name: f,
+          func: function() {
+            run_test_remember_failing(dir + "/" + f, function(err, output) {
+              stepFinished(index, err, output);
+            });
+          }
+        });
+      })();
+    }
+    function stepFinished(index, err, output) {
+      running--;
+      if (err) {
+        failed++;
+      }
+      var step = steps[index];
+      step.err = err;
+      step.output = output;
+      if (step.err) {
+        console.log("\nTEST FAILED: " + step.name);
+        console.log(step.output);
+        console.log(step.err);
+        console.log("");
+      }
+      if (stepIndex < steps.length) {
+        if (running < maxRunning) {
+          runNext();
+        }
+      } else {
+        maybeFinish();
+      }
+    }
+    function runNext() {
+      stepIndex ++;
+      var step = steps[stepIndex];
+      if (step) {
+        console.log("Running test " + (stepIndex+1) + " of " + (steps.length));
+        running++;
+        step.func();
+      } else {
+        maybeFinish();
+      }
+    }
+    function maybeFinish() {
+      if (stepIndex == steps.length && running == 0) {
+        if (failed) {
+          console.log("" + failed + " FAILED:");
+          for (var i = 0; i < steps.length; i++) {
+            var step = steps[i];
+            if (step.err) {
+              console.log(" - " + step.name);
+            }
+          }
+          console.log("FAIL");
+          if (finishCb) {
+            finishCb('failed');
+          }
+        } else {
+          console.log("SUCCESS");
+          if (finishCb) {
+            finishCb(null);
+          }
+        }
+      }
+    }
+    while (running < maxRunning) {
+      runNext();
     }
   });
 }
@@ -135,5 +211,7 @@ function fswatch(path, callback) {
 if (argWatch) {
   watch();
 } else {
-  run_all();
+  run_all(function(err) {
+    process.exit(err ? -1 : 0);
+  });
 }

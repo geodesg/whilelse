@@ -21,3 +21,5 @@ u.test 'instantiation-complete', 'Instantiation - Complete params', ->
   u.find "new"
   u.then-press 'S-l'
   # unimplemented :(
+
+  u.assert true
