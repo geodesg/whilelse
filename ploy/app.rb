@@ -31,7 +31,7 @@ class App < Sinatra::Base
       output_file_name = frontend_root.join(params['name']).to_s
     elsif mode == 'experiment'
       raise "Invalid file name: #{params['name']}" if ! Validator.valid_filename?(params['name'])
-      frontend_root = APP_ROOT.join('..', 'tmp', 'experiments')
+      experiment_root = APP_ROOT.join('..', 'tmp', 'experiments')
       output_file_name = experiment_root.join(params['name']).to_s
     else
       content_root = APP_ROOT.join('contents')
@@ -74,7 +74,7 @@ class App < Sinatra::Base
       Thread.new(pid, user_token, &method(:expire_process))
 
       content_type :json
-      JSON.generate({ url: "#{ENV['DEPLOY_PROTOCOL']}//#{ENV['DEPLOY_HOSTNAME']}:#{port}/" })
+      JSON.generate({ success: true, url: "#{ENV['DEPLOY_PROTOCOL']}//#{ENV['DEPLOY_HOSTNAME']}:#{port}/" })
 
     when 'run'
       Dir.chdir content_root.to_s
@@ -82,7 +82,7 @@ class App < Sinatra::Base
       exit_status = $?
       content_type :json
       FileUtils.rm(output_file_name) if cleanup_file
-      JSON.generate({ output: output, exit_status: exit_status })
+      JSON.generate({ success: true, output: output, exit_status: exit_status })
 
     when 'frontend', 'experiment'
       # already written file
