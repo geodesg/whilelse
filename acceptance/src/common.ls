@@ -147,7 +147,9 @@ module.exports = u =
         elem = 'Escape' if elem == 'Esc'
         # https://github.com/ariya/phantomjs/commit/cab2635e66d74b7e665c44400b8b20a8f225153a
         key = find-key(page, elem)
-        key = key.toUpperCase! if modifier .&. 0x02000000
+        throw "key not found: #{elem}" if ! key
+        # Uppercase if it's a letter and shift is pressed
+        key = key.toUpperCase! if key.toUppeerCase && modifier .&. 0x02000000
         page.send-event 'keypress', key, null, null, modifier
         u.press-keys-recurs(list, cont-cb)
     else
@@ -277,6 +279,8 @@ module.exports = u =
 
 
 find-key = (page, elem) ->
+  throw "no elem" if ! elem
+  throw "elem is blank" if elem.length == 0
   if elem.length > 1
     k = page.event.key[elem]
     k ?= page.event.key[capitalize-first(elem)]
