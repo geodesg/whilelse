@@ -906,35 +906,24 @@ module.exports = templates =
           space!
           ref node, n.refs, o
 
-    box:
-      full: (node, o) ->
-        join do
-          desc node, o
-          line do
-            keyword 'box<'
-            ref node, n.component-data-type-r, o, component-mode: 'reference'
-            keyword '>'
+    box: (node, o) ->
+      join do
+        desc node, o
+        line do
+          keyword 'box<'
+          ref node, n.component-data-type-r, o, component-mode: 'reference'
+          keyword '>'
 
-      brief: (node, o) ->
-        join do
-          desc node, o
-          line do
-            keyword 'box<'
-            ref node, n.component-data-type-r, o, component-mode: 'reference'
-            keyword '>'
+    compute: (node, o) ->
+      eager = node.a(n.eager-a)
+      join do
+        desc node, o
+        keyword 'compute'
+        indent do
+          ref node, n.declaration-r, o, skip: true
+          ref node, n.implementation-r, o
 
-    compute:
-      full: (node, o) ->
-        eager = node.a(n.eager-a)
-        join do
-          desc node, o
-          keyword 'compute'
-          indent do
-            ref node, n.declaration-r, o, skip: true
-            ref node, n.implementation-r, o
-
-    computed_box:
-      full: (node, o) ->
+    computed_box: (node, o) ->
         eager = node.a(n.eager-a)
         join do
           desc node, o
@@ -944,22 +933,10 @@ module.exports = templates =
             keyword '>'
             space! if eager
             keyword 'eager' if eager
-          indent do
-            ref node, n.declaration-r, o, skip: true
-            ref node, n.implementation-r, o
-
-      brief: (node, o) ->
-        eager = node.a(n.eager-a)
-        join do
-          desc node, o
-          line do
-            keyword 'compubox<'
-            ref node, n.component-data-type-r, o, component-mode: 'reference'
-            keyword '>'
-            space! if eager
-            keyword 'eager' if eager
-
-
+          unless o.mode == 'brief'
+            indent do
+              ref node, n.declaration-r, o, skip: true
+              ref node, n.implementation-r, o
 
     # end of prog
 

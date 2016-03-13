@@ -88,6 +88,8 @@ class PosiView extends Backbone.View
     #console.log 'ts', ts
 
     # ts: [templates.prog.function, templates.prog, templates._common]
+    if ts[0] && u.is-function(ts[0])
+      return ts[0]
     for t in ts
       #console.log "t", t
       if t[mode]
@@ -168,6 +170,7 @@ class PosiView extends Backbone.View
         template = @templateFor(node, mode)
         #console.log "T", node.inspect!, mode, template
         builtEl = template node, u.merge o,
+          mode: mode
           level: currentRenderNestLevel
           part: (mode, node, o, oo) ~>
             @renderPart node, mode, u.merge(o,oo)
