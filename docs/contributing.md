@@ -35,6 +35,5 @@ A chance to shape the programming tool of the future.
 
 ## Contact
 
-- IRC: [#whilelse on Freenode](irc://irc.freenode.net/whilelse) <sup>[IRCCloud](https://www.irccloud.com/#!/irc.freenode.net:6667/%23whilelse)</sup>
 - Twitter: [whilelse](https://twitter.com/whilelse)
 - Gmail: bagilevi
