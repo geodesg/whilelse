@@ -241,7 +241,7 @@ module.exports = u =
 
   select-type: (key, query) ->
     u.choose 'Select Type', key
-    if key == 'o' # Other
+    if key == '\\' # Other
       u.wait-for-input!
       u.then-type query
       u.wait 200

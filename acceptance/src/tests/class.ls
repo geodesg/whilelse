@@ -55,7 +55,7 @@ u.test 'class', 'Class', ->
   # TODO: improve speed by declaring variable inline and inferring type from assignment
   u.add-declaration 'v' # variable
   u.enter 'max'
-  u.select-type 'o', 'Dog'
+  u.select-type '\\', 'Dog'
   u.esc!
 
   u.then-type 'yyyy' # select application

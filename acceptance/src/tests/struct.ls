@@ -27,7 +27,7 @@ u.test 'struct', 'Struct', ->
   u.then-press 'v' # variable
   u.enter 'p'
 
-  u.then-press 'o'
+  u.then-press '\\'
   u.wait-for-input!
 
   u.step "Search for point"
