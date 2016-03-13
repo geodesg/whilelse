@@ -422,6 +422,9 @@ module.exports = templates =
               ref node, n.constructor-r, o, prefix: line(keyword('constructor'), space!), fold: true
               ref node, n.method-r, o, context: 'method', fold: true
 
+      link: (node, o) ->
+        span 'prog-data-type', name node, o
+
     this:
       full: (node,o) ->
         join do
@@ -563,7 +566,7 @@ module.exports = templates =
           keyword ">"
 
       link: (node, o) ->
-        span 'prog-struct', name node, o
+        span 'prog-data-type', name node, o
 
     hash_type:
       full: (node,o) ->
