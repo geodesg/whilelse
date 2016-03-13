@@ -14,6 +14,11 @@ var argWatch    = process.argv[2] == 'watch'
 var argParallel = process.argv[3] == 'parallel'
 var maxRunning = parseInt(process.argv[3] || "4");
 
+var homeDir = process.env['HOME'];
+var keysDir = homeDir + '/tmp/keys';
+var screenshotsDir = homeDir + '/tmp/screenshots';
+
+
 function run(command, args, callback) {
   console.log(command, args.join(' '));
 
@@ -166,28 +171,32 @@ function watch() {
     }
   });
 
-  fs.watch('/Users/lev/tmp/keys', { recursive: true, persistent: true }, function (event, filename) {
-    if (filename == 'f2.key') {
-      if (last_test) {
-        console.log("Running last test: " + last_test);
-        run_js(last_test);
-      } else {
-        console.log("No last test.");
+  if (keysDir) {
+    fs.watch(keysDir, { recursive: true, persistent: true }, function (event, filename) {
+      if (filename == 'f2.key') {
+        if (last_test) {
+          console.log("Running last test: " + last_test);
+          run_js(last_test);
+        } else {
+          console.log("No last test.");
+        }
       }
-    }
-    if (filename == 'm-f2.key') {
-      console.log("Running all tests");
-      run_all();
-    }
-  });
+      if (filename == 'm-f2.key') {
+        console.log("Running all tests");
+        run_all();
+      }
+    });
+  }
 
-  fswatch('/Users/lev/tmp/screenshots', function (filename) {
-    if (filename == 'casper.png') {
-      setTimeout(function() {
-        run_quiet('open', ['/Users/lev/tmp/screenshots/casper.png']);
-      }, 100);
-    }
-  });
+  if (screenshotsDir) {
+    fswatch(screenshotsDir, function (filename) {
+      if (filename == 'casper.png') {
+        setTimeout(function() {
+          run_quiet('open', [screenshotsDir + '/casper.png']);
+        }, 100);
+      }
+    });
+  }
 }
 
 var fswatch_files = {}

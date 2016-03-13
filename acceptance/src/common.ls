@@ -116,7 +116,9 @@ module.exports = u =
 
   screenshot: -> casper.wait 100, ->
     casper.echo "--- SCREENSHOT ---"
-    @capture "/Users/lev/tmp/screenshots/casper.png"
+    homeDir = process.env['HOME']
+    screenshotsDir = homeDir + '/tmp/screenshots'
+    @capture "#{screenshotsDir}/casper.png"
 
   press-keys: (list, cont-cb) ->
     u.press-keys-recurs(list, cont-cb)
