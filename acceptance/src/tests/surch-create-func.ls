@@ -28,7 +28,6 @@ u.test 'surch-create-func', 'Surch - Create function', ->
   u.tab!
   u.surch-variable 'i'
 
-  u.then-press 'y', 'y'
   u.then-press 'S-j', 'r'
   u.assert-textarea-popup null, 'run output is correct',
     """

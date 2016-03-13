@@ -24,8 +24,6 @@ u.test 'move-statements', 'Move statement up and down', ->
   u.then-press 'S-up'
 
   u.step "Run code"
-  u.then-press 'y'
-  u.then-press 'y'
   u.then-press 'S-j', 'r'
 
   u.assert-textarea-popup null, 'run output is correct',
@@ -53,8 +51,6 @@ u.test 'move-statements', 'Move statement up and down', ->
   u.then-press 'S-down'
 
   u.step "Run code"
-  u.then-press 'y'
-  u.then-press 'y'
   u.then-press 'S-j', 'r'
 
   u.assert-textarea-popup null, 'run output is correct',

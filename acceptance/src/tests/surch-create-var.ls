@@ -16,7 +16,6 @@ u.test 'surch-create-var', 'Surch - Create variable', ->
   u.surch-function 'log'
   u.surch-variable 'j'
 
-  u.then-press 'y', 'y'
   u.then-press 'S-j', 'r'
   u.assert-textarea-popup null, 'run output is correct',
     """

@@ -71,7 +71,6 @@ u.test 'array', 'Array', ->
   u.surch null, 'item', 'variable', 'item'
 
   u.step "Run code"
-  u.then-press 'y', 'y', 'y', 'y'
   u.then-press 'S-j', 'r'
 
   u.assert-textarea-popup null, 'run output is correct',

@@ -25,8 +25,6 @@ u.test 'create-application', 'Can create a simple application', ->
 
   casper.wait 200
 
-  u.then-press 'y', 'y'
-
   u.then-press 'S-j', 'r'
 
   u.assert-textarea-popup null, 'run output is correct',

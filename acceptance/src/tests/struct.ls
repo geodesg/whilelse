@@ -81,7 +81,6 @@ u.test 'struct', 'Struct', ->
   u.surch '.', 'y', 'field', 'y'
 
   u.step "Run code"
-  u.then-press 'y', 'y'
   u.then-press 'S-j', 'r'
   u.assert-textarea-popup null, 'run output is correct',
     """

@@ -82,7 +82,6 @@ u.test 'class', 'Class', ->
   u.surch-variable 'max'
   u.surch '.', 'g', 'field', 'getName'
 
-  u.then-type 'yyyy' # select application
   u.then-press 'S-j', 'r'
   u.assert-textarea-popup null, 'run output is correct',
     """

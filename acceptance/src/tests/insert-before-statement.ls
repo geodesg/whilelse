@@ -19,8 +19,6 @@ u.test 'insert-before', 'Insert before statement', ->
   u.surch null, "'hi", 'literal', 'hi'
 
   u.step "Run code"
-  u.then-press 'y'
-  u.then-press 'y'
   u.then-press 'S-j', 'r'
 
   u.assert-textarea-popup null, 'run output is correct',

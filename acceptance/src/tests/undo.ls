@@ -37,8 +37,6 @@ u.test 'undo', 'Undo', ->
   u.then-type "'hi"
   u.then-press 'Enter'
 
-  u.then-press 'y', 'y'
-
   u.then-press 'S-j', 'r'
 
   u.assert-textarea-popup null, 'run output is correct',

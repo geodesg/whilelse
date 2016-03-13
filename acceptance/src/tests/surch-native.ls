@@ -37,7 +37,6 @@ u.test 'surch-native', 'Surch - Create native call, property, expression', ->
   u.then-press 'C-e'
   u.wait 200
 
-  u.then-press 'y', 'y', 'y', 'y'
   u.then-press 'S-j', 'r'
   u.assert-textarea-popup null, 'run output is correct',
     """

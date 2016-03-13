@@ -59,7 +59,6 @@ u.test 'set-func-param', 'Set function parameter', ->
   u.then-press 'l'
   u.surch-literal '333'
 
-  u.then-press 'y', 'y'
   u.then-press 'S-j', 'r'
 
   u.assert-textarea-popup null, 'run output is correct',

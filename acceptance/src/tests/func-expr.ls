@@ -19,8 +19,6 @@ u.test 'func-expr', 'Func expr', ->
   u.tab!
   u.surch-literal '7'
 
-
-  u.then-press 'y', 'y'
   u.then-press 'S-j', 'r'
   u.assert-textarea-popup null, 'run output is correct',
     """

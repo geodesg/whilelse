@@ -12,6 +12,10 @@ module.exports = e =
     switch export-method
     case \run
       # Run and display output
+      node = node.closest-ancestor-of-type(n.application, true)
+      if ! node
+        u.ierr "No application found."
+        return
       ast = genjs(node)
       code = escodegen.generate ast
       jsconv(code).done (code) ->

@@ -30,11 +30,6 @@ u.test 'copy-paste', 'Copy & Paste', ->
   u.then-press 'p' # paste
 
   u.step "Run code"
-
-  u.then-press 'y'
-  u.then-press 'y'
-
-
   u.then-press 'S-j', 'r'
 
   u.assert-textarea-popup null, 'run output is correct',
