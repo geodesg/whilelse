@@ -490,8 +490,9 @@ module.exports = templates =
 
     module:
       rig: (node,o) ->
+        expand = false
         div 'posi-major' do
-          ref node, n.ctns, o
+          ref node, n.ctns, o, {unit: !expand, mode: ('link' unless expand)}
 
     jsmodule:
       rig: (node,o) ->
