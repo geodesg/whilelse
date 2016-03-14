@@ -1,4 +1,4 @@
-u = require 'lib/utils'
+{ifnn} = u = require 'lib/utils'
 {map,each,concat,join,elem-index} = prelude
 actions = require './actions'
 
