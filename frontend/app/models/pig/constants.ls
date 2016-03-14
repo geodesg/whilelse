@@ -99,3 +99,9 @@ module.exports = constants =
     n.testing = repo.node-ifx('acCGU2Dy84is')
     if n.testing
       n.testing.rns(n.ctns) |> each (node) -> add(node, 'te-')
+
+    n.react = repo.node-ifx('acchLGUrvbag')
+    if n.react
+      n.react.rns(n.ctns) |> each (node) -> add(node, 'react-')
+
+

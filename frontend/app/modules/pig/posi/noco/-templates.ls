@@ -1088,6 +1088,48 @@ module.exports = templates =
           space!
           ref node, n.arg-expr-r, o
 
+  react:
+    html_elem: (node, o) ->
+      join do
+        # opening tag
+        line do
+          keyword "<"
+          attr node, n.react-name-a, o
+          space!
+          ref node, n.react-prop-r, o, layout: 'line', delim: -> space!
+          keyword ">"
+        # children
+        indent do
+          ref node, n.react-child-r, o
+        # closing tag
+        line do
+          keyword "</"
+          text node.a(n.react-name-a)
+          keyword ">"
+
+    react_elem: (node, o) ->
+      join do
+        # opening tag
+        line do
+          keyword "<"
+          ref node, n.react-class-r, o
+          space!
+          ref node, n.react-prop-r, o, layout: 'line', delim: -> space!
+          keyword ">"
+        # children
+        ref node, n.react-child-r, o
+        # closing tag
+        line do
+          keyword "</"
+          text node.rn(n.react-class-a)?.name!
+          keyword ">"
+
+    prop: (node, o) ->
+      line do
+        attr node, n.react-name-a, o
+        keyword '='
+        ref node, n.react-value-r, o
+
 
   web:
     app:
