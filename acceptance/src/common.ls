@@ -116,7 +116,7 @@ module.exports = u =
 
   screenshot: -> casper.wait 100, ->
     casper.echo "--- SCREENSHOT ---"
-    homeDir = process.env['HOME']
+    homeDir = require('system').env.HOME
     screenshotsDir = homeDir + '/tmp/screenshots'
     @capture "#{screenshotsDir}/casper.png"
 

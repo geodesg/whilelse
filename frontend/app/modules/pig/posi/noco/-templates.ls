@@ -115,6 +115,8 @@ module.exports = templates =
       name: (node,o) -> text node.name!
       brief: (node, o) ->
         o.part 'reference', node, o
+      reference: (node, o) ->
+        o.part 'link', node, o
 
     # end of prog._common
 
@@ -360,35 +362,35 @@ module.exports = templates =
               o.part 'rig', node, o
 
       brief: (node,o) ->
-        join do
-          desc node, o
-          div 'posi-major' do
-            o.part 'head', node, o
+        div 'posi-major' do
+          o.part 'head', node, o
 
       head: (node,o) ->
         if parent = node.parent! # if parent is missing => we're still in the middle of creating a node
-          line do
-            if node.parent!.type! == n.class
-              # Method
-              line do
-                span 'prog-function', name node, o
-                space!
-                keyword ':'
-                space!
-            else
-              # Normal Function
-              line do
-                #keyword node.type!.name!
-                #space!
-                span 'prog-function', name node, o
-                space!
-            ref node, n.function-signature-r, o
-            if node.a(n.async-a)
-              join do
-                space!
-                  keyword "async"
-            space!
-            symbol '→', 'x150'
+          join do
+            desc node, o
+            line do
+              if node.parent!.type! == n.class
+                # Method
+                line do
+                  span 'prog-function', name node, o
+                  space!
+                  keyword ':'
+                  space!
+              else
+                # Normal Function
+                line do
+                  #keyword node.type!.name!
+                  #space!
+                  span 'prog-function', name node, o
+                  space!
+              ref node, n.function-signature-r, o
+              if node.a(n.async-a)
+                join do
+                  space!
+                    keyword "async"
+              space!
+              symbol '→', 'x150'
 
       rig: (node,o) ->
         [is-native, method] = function-is-native(node)
@@ -421,6 +423,12 @@ module.exports = templates =
               ref node, n.field-r, o, fold: true
               ref node, n.constructor-r, o, prefix: line(keyword('constructor'), space!), fold: true
               ref node, n.method-r, o, context: 'method', fold: true
+
+      brief: (node, o) ->
+        line do
+          keyword 'class'
+          space!
+          name node, o
 
       link: (node, o) ->
         span 'prog-data-type', name node, o
@@ -460,17 +468,14 @@ module.exports = templates =
         o.part 'full', node, o
 
 
-    if:
-      head: (node,o) ->
-        join do
-          desc node, o
-          line do
-            keyword 'if'
-            space!
-            ref node, n.condition-r, o
-
-      rig: (node,o) ->
-        join do
+    if: (node, o) ->
+      join do
+        desc node, o
+        line do
+          keyword 'if'
+          space!
+          ref node, n.condition-r, o
+        indent do
           ref node, n.then-r, o,
             prefix: join(keyword('then'), space!)
             layout: 'line'
@@ -492,7 +497,7 @@ module.exports = templates =
       rig: (node,o) ->
         expand = false
         div 'posi-major' do
-          ref node, n.ctns, o, {unit: !expand, mode: ('link' unless expand)}
+          ref node, n.ctns, o, {unit: !expand, mode: ('brief' unless expand)}
 
     jsmodule:
       rig: (node,o) ->
@@ -562,9 +567,9 @@ module.exports = templates =
 
       reference: (node, o) ->
         line do
-          keyword "struct<"
-          ref node, n.field-r, o
-          keyword ">"
+          keyword 'struct'
+          space!
+          span 'prog-struct', name node, o
 
       link: (node, o) ->
         span 'prog-data-type', name node, o

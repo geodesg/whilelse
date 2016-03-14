@@ -24,18 +24,13 @@ u.test 'undo', 'Undo', ->
   u.wait-for-input!
   u.surch null, 'log', 'function', 'log'
   u.wait-for-input!
-  u.then-type "'hello"
-  u.then-press 'Enter'
-
-  casper.wait 200
+  u.surch-string 'hello'
 
   u.step 'Undo'
   u.then-press 'u'
 
   u.then-press 'l'
-  u.wait-for-input!
-  u.then-type "'hi"
-  u.then-press 'Enter'
+  u.surch-string 'hi'
 
   u.then-press 'S-j', 'r'
 
