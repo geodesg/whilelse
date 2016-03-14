@@ -47,12 +47,12 @@ module.exports = function () {
     var h;
     return h = {
         applySurchResult: function (node, result) {
-            return node.cAddLink(repo().nodes['820'], result.node);
+            node.cAddLink(repo().nodes['820'], result.node);
         },
         getExprType: function (node) {
-            var rvalue;
-            if (rvalue = node.rn(repo().nodes['4506'])) {
-                return getExprType(rvalue);
+            var lvalue;
+            if (lvalue = node.rn(repo().nodes['4504'])) {
+                return getExprType(lvalue);
             } else
                 null;
         }
