@@ -39,7 +39,8 @@ class App < Sinatra::Base
       output_file_name = content_root.join("app#{id}.js")
     end
     FileUtils.mkdir_p(File.dirname(output_file_name))
-    puts "Writing to #{output_file_name}"
+    puts "-" * 50
+    puts "WRITING #{id} - Writing to #{output_file_name}"
     puts contents
     puts
     File.open(output_file_name, 'w') do |f|
@@ -78,7 +79,12 @@ class App < Sinatra::Base
 
     when 'run'
       Dir.chdir content_root.to_s
+      puts "-" * 50
+      puts "RUNNING #{id}"
       output = `node app#{id}.js`
+      puts "-" * 50
+      puts "OUTPUT #{id}"
+      puts output
       exit_status = $?
       content_type :json
       FileUtils.rm(output_file_name) if cleanup_file
