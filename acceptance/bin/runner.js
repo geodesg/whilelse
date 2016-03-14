@@ -139,7 +139,7 @@ function run_all(finishCb) {
         }
       }
     }
-    while (running < maxRunning) {
+    while (running < maxRunning && stepIndex < steps.length - 1) {
       runNext();
     }
   });

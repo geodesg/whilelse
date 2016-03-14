@@ -1,1 +1,1 @@
-node bin/runner.js run
+node bin/runner.js run $1
