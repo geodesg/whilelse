@@ -10,89 +10,152 @@ class Deployer
   end
 
   def run
-    mode = params['mode']
-    # mode:
-    #   default: 'service' - deploy a long-running service, takes a port as an argument
-    #   'run' - run an app that should execute quickly, wait for exit and return output
-    #   'frontend' - place file in frontend/app/generated/
-
-    cleanup_file = false
-
-    contents = params['contents']
-    user_token = params['user_token'] || random_string
-    user_app_token = "#{user_token}#{params['app_id']}"
-    id = user_app_token
-    if mode == 'frontend'
-      frontend_root = APP_ROOT.join('..', 'frontend', 'app', 'generated')
-      raise "Invalid path: #{params['name']}" if ! Validator.valid_subpath?(params['name'])
-      output_file_name = frontend_root.join(params['name']).to_s
-    elsif mode == 'experiment'
-      raise "Invalid file name: #{params['name']}" if ! Validator.valid_filename?(params['name'])
-      experiment_root = APP_ROOT.join('..', 'tmp', 'experiments')
-      output_file_name = experiment_root.join(params['name']).to_s
-    else
-      content_root = APP_ROOT.join('contents')
-      cleanup_file = true
-      output_file_name = content_root.join("app#{id}.js")
+    catch :finish do
+      run_inner
     end
+  end
+
+  def err(msg)
+    throw :finish, { error: msg }
+  end
+
+  # mode:
+  #   default: 'service' - deploy a long-running service, takes a port as an argument
+  #   'run' - run an app that should execute quickly, wait for exit and return output
+  #   'frontend' - place file in frontend/app/generated/
+  def mode
+    params['mode']
+  end
+
+  def contents
+    params['contents']
+  end
+
+  def  user_token
+    params['user_token'] || random_string
+  end
+
+  def user_app_token
+    "#{user_token}#{params['app_id']}"
+  end
+
+  def frontend_root
+    APP_ROOT.join('..', 'frontend', 'app', 'generated')
+  end
+
+  def experiment_root
+    APP_ROOT.join('..', 'tmp', 'experiments')
+  end
+
+  def output_file_name
+    if mode == 'frontend'
+      err "Invalid path: #{params['name']}" if ! Validator.valid_subpath?(params['name'])
+      frontend_root.join(params['name']).to_s
+    elsif mode == 'experiment'
+      err "Invalid file name: #{params['name']}" if ! Validator.valid_filename?(params['name'])
+      experiment_root.join(params['name']).to_s
+    else
+      target_root.join(output_file_relative_path)
+    end
+  end
+
+  # Directory to which the application is deployed
+  def target_root
+    APP_ROOT.join("deployments/#{target_id}")
+  end
+
+  # Output file relative to the target_root
+  def output_file_relative_path
+    "app.js"
+  end
+
+  def process_command(port)
+    "node #{output_file_relative_path} #{port}"
+  end
+
+  # Unique ID of a deployment target - must be a valid filename
+  def target_id
+    user_app_token
+  end
+
+  def cleanup_file?
+    ['frontend', 'experiment'].include? mode
+  end
+
+  def run_inner
     FileUtils.mkdir_p(File.dirname(output_file_name))
+
+    write_files
+
+    case mode
+    when 'service', nil
+      deploy_service
+
+    when 'run'
+      run_script
+
+    when 'frontend', 'experiment'
+      # already written file
+      { success: true }
+
+    else
+      { error: "Invalid mode: #{mode}" }
+    end
+  end
+
+  def write_files
     puts "-" * 50
-    puts "WRITING #{id} - Writing to #{output_file_name}"
+    puts "WRITING #{target_id} - Writing to #{output_file_name}"
     puts contents
     puts
     File.open(output_file_name, 'w') do |f|
       f.write(contents)
     end
+  end
 
-    case mode
-    when 'service', nil
-      # Kill user's current app, if any
-      pid = store.get_token_pid(user_app_token)
-      if pid
-        puts "TERMINATING #{pid}"
-        begin
-          puts Process.kill "KILL", pid
-        rescue Errno::ESRCH => e
-          puts e.message
-        end
-      end
+  def deploy_service
+    terminate_running_process
 
-      port = PortUtil.find_a_port
+    port = PortUtil.find_a_port
 
-      # Start new app
-      pid = fork do
-        Dir.chdir content_root.to_s
-        puts "CHILD on port #{port}"
-        exec "node app#{id}.js #{port}"
-      end
-      # TODO: clean up file when process terminates
-      store.set_token_pid(user_app_token, pid)
-      puts "FORKED #{pid}"
-
-      Thread.new(pid, user_app_token, &method(:expire_process))
-
-      @result = { success: true, url: "#{ENV['DEPLOY_PROTOCOL']}//#{ENV['DEPLOY_HOSTNAME']}:#{port}/" }
-
-    when 'run'
-      Dir.chdir content_root.to_s
-      puts "-" * 50
-      puts "RUNNING #{id}"
-      output = `node app#{id}.js`
-      puts "-" * 50
-      puts "OUTPUT #{id}"
-      puts output
-      exit_status = $?
-      FileUtils.rm(output_file_name) if cleanup_file
-      @result = { success: true, output: output, exit_status: exit_status }
-
-    when 'frontend', 'experiment'
-      # already written file
-      @result = { success: true }
-
-    else
-      @result = { error: "Invalid mode: #{mode}" }
+    # Start new app
+    pid = fork do
+      Dir.chdir target_root
+      puts "CHILD on port #{port}"
+      exec process_command(port)
     end
-    @result
+    # TODO: clean up file when process terminates
+    store.set_token_pid(user_app_token, pid)
+    puts "FORKED #{pid}"
+
+    Thread.new(pid, user_app_token, &method(:expire_process))
+
+    { success: true, url: "#{ENV['DEPLOY_PROTOCOL']}//#{ENV['DEPLOY_HOSTNAME']}:#{port}/" }
+  end
+
+  def run_script
+    Dir.chdir target_root.to_s
+    puts "-" * 50
+    puts "RUNNING #{target_id}"
+    output = `node #{output_file_relative_path}`
+    puts "-" * 50
+    puts "OUTPUT #{target_id}"
+    puts output
+    exit_status = $?
+    FileUtils.rm(output_file_name)
+    { success: true, output: output, exit_status: exit_status }
+  end
+
+  def terminate_running_process
+    pid = store.get_token_pid(user_app_token)
+    if pid
+      puts "TERMINATING #{pid}"
+      begin
+        puts Process.kill "KILL", pid
+      rescue Errno::ESRCH => e
+        puts e.message
+      end
+    end
   end
 
   def store
