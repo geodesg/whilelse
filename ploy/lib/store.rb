@@ -4,17 +4,17 @@ require 'redis'
 class Store
   include Singleton
 
-  def get_user_pid(user_token)
-    s = redis.get "user:#{user_token}:pid"
+  def get_token_pid(token)
+    s = redis.get "user:#{token}:pid"
     s.to_i if s && s != ""
   end
 
-  def set_user_pid(user_token, pid)
-    redis.set "user:#{user_token}:pid", pid
+  def set_token_pid(token, pid)
+    redis.set "user:#{token}:pid", pid
   end
 
-  def del_user_pid(user_token)
-    redis.delete "user:#{user_token}:pid"
+  def del_token_pid(token)
+    redis.delete "user:#{token}:pid"
   end
 
   def redis
