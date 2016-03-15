@@ -1101,11 +1101,11 @@ module.exports = templates =
         # children
         indent do
           ref node, n.react-child-r, o
-        # closing tag
-        line do
-          keyword "</"
-          text node.a(n.react-name-a)
-          keyword ">"
+        ## closing tag
+        #line do
+          #keyword "</"
+          #text node.a(n.react-name-a)
+          #keyword ">"
 
     react_elem: (node, o) ->
       join do
@@ -1118,11 +1118,11 @@ module.exports = templates =
           keyword ">"
         # children
         ref node, n.react-child-r, o
-        # closing tag
-        line do
-          keyword "</"
-          text node.rn(n.react-class-a)?.name!
-          keyword ">"
+        ## closing tag
+        #line do
+          #keyword "</"
+          #text node.rn(n.react-class-a)?.name!
+          #keyword ">"
 
     prop: (node, o) ->
       line do
@@ -1130,6 +1130,24 @@ module.exports = templates =
         keyword '='
         ref node, n.react-value-r, o
 
+    app: (node, o) ->
+      join do
+        line do
+          keyword 'react app'
+          space!
+          name node, o
+        indent do
+          ref node, n.declaration-r, o
+          ref node, n.react-main-r, o, prefix: line(keyword('main'), space!)
+
+    component: (node, o) ->
+      join do
+        line do
+          keyword 'component'
+          space!
+          name node, o
+        indent do
+          ref node, n.react-render-r, o
 
   web:
     app:

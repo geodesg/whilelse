@@ -853,6 +853,36 @@ genjs = (node, opts = {}) ->
     init ++ items
 
 
+  when n.react-app
+    main-component = node.rn(n.react-main-r)
+    declarations = [main-component] ++ node.rns(n.declaration-r)
+    body = []
+    for declaration in declarations
+      body.push j.var declaration.name!, genjs declaration
+    j.prog do
+      j.var 'React', j.callf('require', j.lit('react'))
+      ...body
+      j.expr j.assign-prop 'module', 'exports', j.id main-component.name!
+
+  when n.react-component
+    j.callm 'React', 'createClass',
+      j.obj do
+        render: j.func-expr null, [], [],
+          genjs(node.rn(n.react-render-r)).body[0]
+
+  when n.react-html-elem
+    g-props = {}
+    for prop in node.rns(n.react-prop-r)
+      g-props[prop.a(n.react-name-a)] = genjs(prop.rn(n.react-value-r))
+    g-children = []
+    for child in node.rns(n.react-child-r)
+      g-children.push genjs child
+
+    j.callm 'React', 'createElement',
+      j.lit node.a(n.react-name-a)
+      j.obj g-props
+      ...g-children
+
   else
     u.err "No javascript generator defined for this node type: #{node.type!.name!}"
 
