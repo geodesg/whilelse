@@ -121,7 +121,6 @@ var Attr = function () {
     var prototype = Attr.prototype;
     function Attr(ati, type, value) {
         var this$ = this;
-        this$.objectId = generateObjectId();
         this$.ati = ati;
         this$._type = type;
         this$._value = value;
@@ -150,21 +149,21 @@ module.exports = function () {
         function Node(repo, ni, nti, name, attrs, refRiList, inrefRiList) {
             var this$ = this;
             this$.objectId = generateObjectId();
-            this$.name$box = box(this$.objectId + '-acRHRpeUbQVz', undefined);
-            this$.attrs$box = box(this$.objectId + '-acqTUkMIKZCp', undefined);
-            this$.refs$box = box(this$.objectId + '-achjao46dQSn', undefined);
-            this$.inrefs$box = box(this$.objectId + '-ac2t7W8QwsZX', undefined);
-            this$.type$box = box(this$.objectId + '-ach9omC01jfH', undefined);
-            this$.parentRef$box = box(this$.objectId + '-acQF5QNTdek1', undefined);
-            this$.parent$box = box(this$.objectId + '-acviugs20aHJ', undefined);
-            this$.attrList$box = box(this$.objectId + '-actWa2fPvnFe', undefined);
-            this$.ancestors$box = box(this$.objectId + '-ac5818wAoM9c', undefined);
-            this$.sourceName$box = box(this$.objectId + '-acTycs0hJy6R', undefined);
-            this$.inspect$box = box(this$.objectId + '-acucVYm3fEK3', undefined);
-            this$.crumbs$box = box(this$.objectId + '-acuVP4RwhC0p', undefined);
-            this$.fq$box = box(this$.objectId + '-accefErHYV0k', undefined);
-            this$.schema$box = box(this$.objectId + '-ac84f2oWzxS1', undefined);
-            this$.superType$box = box(this$.objectId + '-acG4dyEbWx23', undefined);
+            this$.name$box = box(this$.objectId + '-acRHRpeUbQVz-name', undefined);
+            this$.attrs$box = box(this$.objectId + '-acqTUkMIKZCp-attrs', undefined);
+            this$.refs$box = box(this$.objectId + '-achjao46dQSn-refs', undefined);
+            this$.inrefs$box = box(this$.objectId + '-ac2t7W8QwsZX-inrefs', undefined);
+            this$.type$box = box(this$.objectId + '-ach9omC01jfH-type', undefined);
+            this$.parentRef$box = box(this$.objectId + '-acQF5QNTdek1-parentRef', undefined);
+            this$.parent$box = box(this$.objectId + '-acviugs20aHJ-parent', undefined);
+            this$.attrList$box = box(this$.objectId + '-actWa2fPvnFe-attrList', undefined);
+            this$.ancestors$box = box(this$.objectId + '-ac5818wAoM9c-ancestors', undefined);
+            this$.sourceName$box = box(this$.objectId + '-acTycs0hJy6R-sourceName', undefined);
+            this$.inspect$box = box(this$.objectId + '-acucVYm3fEK3-inspect', undefined);
+            this$.crumbs$box = box(this$.objectId + '-acuVP4RwhC0p-crumbs', undefined);
+            this$.fq$box = box(this$.objectId + '-accefErHYV0k-fq', undefined);
+            this$.schema$box = box(this$.objectId + '-ac84f2oWzxS1-schema', undefined);
+            this$.superType$box = box(this$.objectId + '-acG4dyEbWx23-superType', undefined);
             function generateObjectId() {
                 return 'node-' + ni;
             }
@@ -176,7 +175,7 @@ module.exports = function () {
             this$.attrs$set(attrs || {});
             this$.refRiList = refRiList || [];
             this$.inrefRiList = inrefRiList || [];
-            repo.nodes[ni] = this$;
+            repo.addNode(ni, this$);
         }
         prototype.closestAncestorOfType = function closestAncestorOfType(type, includeSelf) {
             var this$ = this;

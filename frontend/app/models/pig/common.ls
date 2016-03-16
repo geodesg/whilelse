@@ -21,7 +21,17 @@ repo =
         if ! repo.nodes[ni]
           node = repo.node(ni)
 
+  new-node-subscribers: []
 
+  each-node-and-new-nodes: (cb) ->
+    # Each existing node
+    repo.nodes |> prelude.Obj.each cb
+    # Subscribe to new nodes
+    repo.new-node-subscribers.push cb
+
+  add-node: (ni, node) ->
+    repo.nodes[ni] = node
+    repo.new-node-subscribers |> each (subscriber) -> subscriber(node)
 
 
 module.exports =

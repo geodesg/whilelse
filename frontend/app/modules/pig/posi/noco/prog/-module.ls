@@ -2,6 +2,7 @@
 {map,each,filter,any,concat,join,elem-index,sort-by,maximum} = prelude
 {box,compute,bcg,cbox} = boxlib = require 'lib/box'
 {tag,div,span,text,join,compute-el,name} = th = require 'modules/pig/posi/template-helpers'
+pig = require 'models/pig'
 {n,repo} = require 'models/pig/common'
 posi = require 'modules/pig/posi/main'
 cursor = require 'modules/pig/posi/cursor'
@@ -207,7 +208,7 @@ prepare-index = ->
         #if node.is-subtype-of(n.expr) || node.is-subtype-of(n.statement)
           #add node, 'command', node
 
-    repo.nodes |> prelude.Obj.each (node) ->
+    repo.each-node-and-new-nodes (node) ->
       switch node.type!
       case n.operator    then
         if node.a(n.is-assign-a)
@@ -225,7 +226,7 @@ prepare-index = ->
 
     if n.react
       react = require '../react/-module'
-      react.populateSearchIndex(search-index)
+      react.populateSearchIndex(add-to-search-index)
 
 
 is-unscoped = (node) ->
@@ -418,11 +419,19 @@ stop-condition-for = (node, kind, handler-node) ->
       /^[a-zA-Z0-9_]$/.test(char)
 
 add = (node, kind, handler-node) ->
-  search-index.push record-for node, kind, handler-node
+  add-to-search-index -> record-for node, kind, handler-node
+
+add-to-search-index = (record-maker) ->
+  i = search-index.length
+  compute "search-index-#{i}", async: true, ~>
+    search-index[i] = record-maker!
 
 search = (q) ->
   search-index |> filter (entry) ->
-    match-keywords(q, entry.keywords)
+    # Entries for deleted elements are cleared, but not removed,
+    # as the array elements are reactively updated based on index
+    if entry
+      match-keywords(q, entry.keywords)
 
 match-keywords = (q, keywords) ->
   match-found = false

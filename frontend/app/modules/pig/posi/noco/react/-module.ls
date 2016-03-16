@@ -54,10 +54,10 @@ module.exports = h = react =
 
   #-------------------------------------------------------------------------------
 
-  populateSearchIndex: (search-index) ->
+  populateSearchIndex: (add-to-search-index) ->
 
     for htmlTagName in react.supportedElements
-      search-index.push do
+      add-to-search-index ->
         keywords: [htmlTagName, "<#{htmlTagName}>"]
         kind: 'react tag'
         name: htmlTagName
