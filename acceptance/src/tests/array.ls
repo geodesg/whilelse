@@ -24,11 +24,13 @@ u.test 'array', 'Array', ->
   u.then-press 'r' # array
   u.wait-for-chooser 'Select Type'
   u.then-press 'i' # int
+  u.wait 200
+  u.esc!
+  u.esc!
 
-  u.wait-for-chooser 'Target type'
-  u.then-press 'Esc'
-
+  u.then-press 'down'
   u.then-press 'down' # select block
+  u.screenshot!
 
   u.step 'a := [1, 2]'
   u.then-press 'l' # complete block

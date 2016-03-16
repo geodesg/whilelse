@@ -362,6 +362,8 @@ surch-in-scope = (q, node) ->
   iter-node = node
   loop
     switch iter-node.type!
+    case null, undefined
+      throw 'iter-node.type! is missing'
     case n.function, n.cmethod, n.computed-box, n.compute, n.application
       func = iter-node
 
@@ -396,6 +398,11 @@ surch-in-scope = (q, node) ->
             type: n.fcall
             handler-node: n.fcall
             subject: 'this'
+
+    case n.react-component
+      vars = iter-node.rns(n.react-prop-var-r) ++
+             iter-node.rns(n.react-state-var-r)
+      vars |> each (v) -> add-variable-and-fields(v)
 
     # Don't go higher than application
     break if iter-node.type! ==  n.application

@@ -610,9 +610,11 @@ module.exports = templates =
           desc node, o
           line do
             keyword '⩒'
-            space!
-            o.part 'reference', node, o
-            ref node, n.data-type-r, o, component-mode: 'reference', prefix: keyword '::'
+            span 'prog-variable', name node, o
+            ref node, n.data-type-r, o, component-mode: 'reference', prefix: line(space!, keyword('::'), space!)
+            attr node, n.s-req, o, boolean: ['required', 'optional'], prefix: space!
+            ref node, n.default-r, o, prefix: line(space!, keyword('='), space!)
+
       nokw: (node,o) ->
         line do
           o.part 'reference', node, o
@@ -1151,7 +1153,15 @@ module.exports = templates =
             space!
             name node, o
           indent do
-            ref node, n.react-render-r, o
+            keyword 'props'
+            indent do
+              ref node, n.react-prop-var-r, o
+            keyword 'state'
+            indent do
+              ref node, n.react-state-var-r, o
+            keyword 'render'
+            indent do
+              ref node, n.react-render-r, o
 
   web:
     app:
@@ -1304,11 +1314,14 @@ attr = (node, attr-type, o, oo = {}) ->
       else
         attr-el = div-prop 'attr', {layout,inspect,elem:(if oo.elem == false then false else true)},
           #div 'posi-elem' do
-            if value && value.indexOf && value.indexOf("\n") > -1
-              div 'preformatted', do
-                text '' + value
+            if oo.boolean
+              keyword(if value then oo.boolean[0] else oo.boolean[1])
             else
-              text '' + value
+              if value && value.indexOf && value.indexOf("\n") > -1
+                div 'preformatted', do
+                  text '' + value
+              else
+                text '' + value
         attr-el.setAttribute 'id', "posi-attr-#{node.ni}-#{attr-type.ni}"
         attr-el
   el.setAttribute 'data-ati', attr-type.ni
