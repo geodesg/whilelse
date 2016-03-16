@@ -31,12 +31,20 @@ class Deployer
     params['contents']
   end
 
-  def  user_token
+  def user_token
     params['user_token'] || random_string
+  end
+
+  def app_type
+    params['app_type']
   end
 
   def user_app_token
     "#{user_token}#{params['app_id']}"
+  end
+
+  def persistent
+    ['true', '1'].include? params['persistent']
   end
 
   def frontend_root
@@ -66,11 +74,17 @@ class Deployer
 
   # Output file relative to the target_root
   def output_file_relative_path
-    "app.js"
+    case app_type
+    when 'react' then 'src/App.js'
+    else "app.js"
+    end
   end
 
   def process_command(port)
-    "node #{output_file_relative_path} #{port}"
+    case app_type
+    when 'react' then "node server.js #{port}"
+    else "node #{output_file_relative_path} #{port}"
+    end
   end
 
   # Unique ID of a deployment target - must be a valid filename
@@ -83,13 +97,18 @@ class Deployer
   end
 
   def run_inner
-    FileUtils.mkdir_p(File.dirname(output_file_name))
+
+    prepare_boilerplate
 
     write_files
 
     case mode
     when 'service', nil
-      deploy_service
+      if @already_running
+        { success: true, was_already_running: true }
+      else
+        deploy_service
+      end
 
     when 'run'
       run_script
@@ -100,6 +119,22 @@ class Deployer
 
     else
       { error: "Invalid mode: #{mode}" }
+    end
+  end
+
+  def prepare_boilerplate
+    case app_type
+    when 'react'
+      if ! persistent || ! File.exists?(target_root)
+        FileUtils.cp_r(APP_ROOT.join('boilerplates', 'react'), target_root)
+        # symlink to node_modules - copying would take about a minute
+        FileUtils.ln_s(APP_ROOT.join('boilerplates', 'node_modules'), target_root.join('node_modules'))
+      else
+        # FIXME assuming it's running if the directory is there
+        @already_running = true
+      end
+    else
+      FileUtils.mkdir_p(File.dirname(output_file_name))
     end
   end
 

@@ -9,6 +9,7 @@ public/lib/js
 public/lib/css
 **/npm-debug.log
 node_modules
+**/node_modules
 async-convert/gen
 frontend/app/generated/
 
@@ -23,3 +24,5 @@ acceptance/gen
 acceptance/debug*
 acceptance/tmp
 acceptance/guides/*.html
+
+ploy/deployments

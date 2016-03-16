@@ -27,8 +27,16 @@ module.exports = e =
       ast = genjs(node)
       code = escodegen.generate ast
       jsconv(code).done (code) ->
-        ploy code, 'service'
-          .done (r) ->
+        ploy code, 'service',
+          data:
+            app_id: node.ni
+            # Update deployed application instead of killing and redeploying
+            persistent: (n.react-app && node.type! == n.react-app)
+            app_type: ('react' if node.type! == n.react-app)
+        .done (r) ->
+          if r.was_already_running
+            u.show-message 'success', 'App updated...'
+          else
             u.show-message 'success', 'App exported, opening in a new window...'
             setTimeout (-> window.open r.url, "_blank"), 1000
 
