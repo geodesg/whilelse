@@ -24,6 +24,8 @@ module.exports = e =
 
     case \deploy
       # Deploy web service and open it in a new window
+      node = node.closest-ancestor-of-type(n.application, true) ||
+        (node.closest-ancestor-of-type(n.react-app, true) if n.react)
       ast = genjs(node)
       code = escodegen.generate ast
       jsconv(code).done (code) ->
