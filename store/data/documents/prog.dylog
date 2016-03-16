@@ -1242,3 +1242,4 @@
 ["link",{"ri":"acu6aZK5zfqc","sni":"ackIp1VopC30","rti":"282","gni":"acEVlXHyFkeG"}]
 ["link",{"ri":"acahFBCdm3T4","sni":"ackIp1VopC30","rti":"265","gni":"911"}]
 ["attr",{"ni":"ackIp1VopC30","ati":"393","val":true}]
+["attr",{"ni":"1381","ati":"186","val":"var ret = [];for (var i = 0; i < collection.length; i++) {  ret.push(    predicate(collection[i])  );}return ret;"}]
