@@ -1141,13 +1141,16 @@ module.exports = templates =
           ref node, n.react-main-r, o, prefix: line(keyword('main'), space!)
 
     component: (node, o) ->
-      join do
-        line do
-          keyword 'component'
-          space!
-          name node, o
-        indent do
-          ref node, n.react-render-r, o
+      if o.mode == 'link'
+        text node.name!
+      else
+        join do
+          line do
+            keyword 'component'
+            space!
+            name node, o
+          indent do
+            ref node, n.react-render-r, o
 
   web:
     app:

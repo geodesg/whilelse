@@ -883,6 +883,18 @@ genjs = (node, opts = {}) ->
       j.obj g-props
       ...g-children
 
+  when n.react-react-elem
+    g-props = {}
+    for prop in node.rns(n.react-prop-r)
+      g-props[prop.a(n.react-name-a)] = genjs(prop.rn(n.react-value-r))
+    g-children = []
+    for child in node.rns(n.react-child-r)
+      g-children.push genjs child
+
+    j.callm 'React', 'createElement',
+      j.id node.rn(n.react-class-r).name!
+      j.obj g-props
+      ...g-children
   else
     u.err "No javascript generator defined for this node type: #{node.type!.name!}"
 
