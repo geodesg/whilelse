@@ -31,7 +31,8 @@ repo =
 
   add-node: (ni, node) ->
     repo.nodes[ni] = node
-    repo.new-node-subscribers |> each (subscriber) -> subscriber(node)
+    u.delay 1, ->
+      repo.new-node-subscribers |> each (subscriber) -> subscriber(node)
 
 
 module.exports =

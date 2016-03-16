@@ -1117,7 +1117,8 @@ module.exports = templates =
           ref node, n.react-prop-r, o, layout: 'line', delim: -> space!
           keyword ">"
         # children
-        ref node, n.react-child-r, o
+        indent do
+          ref node, n.react-child-r, o
         ## closing tag
         #line do
           #keyword "</"

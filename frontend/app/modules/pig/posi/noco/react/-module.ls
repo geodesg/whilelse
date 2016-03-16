@@ -64,3 +64,14 @@ module.exports = h = react =
         type: n.react-html-elem
         handler-node: n.react-html-elem
 
+  addNodeToSearchIndex: (node, add-to-search-index) ->
+    if node.type! == n.react-component
+      add-to-search-index ->
+        keywords: [node.name!, "<#{node.name!}>"]
+        kind: 'react tag'
+        node: node
+        name: node.name!
+        type: n.react-react-elem
+        handler-node: n.react-react-elem
+
+

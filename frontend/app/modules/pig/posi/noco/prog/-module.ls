@@ -224,6 +224,10 @@ prepare-index = ->
       case n.struct-type then add node, 'struct',   n.make-struct
       case n.symbol      then add node, 'symbol',   n.symref
 
+      if n.react
+        react = require '../react/-module'
+        react.addNodeToSearchIndex(node, add-to-search-index)
+
     if n.react
       react = require '../react/-module'
       react.populateSearchIndex(add-to-search-index)
