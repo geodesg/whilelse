@@ -155,6 +155,17 @@ genjs = (node, opts = {}) ->
     if va = node.rn(n.variable-r)
       if va == n.it-variable && options.it
         options.it
+      else if options.react
+        # prepend this.state or this.props
+        ref = va.parentRef!
+        base-obj =
+          switch ref.type!
+          when n.react-prop-var-r then j.prop 'this', 'props'
+          when n.react-state-var-r then j.prop 'this', 'state'
+        if base-obj
+          j.memb base-obj, j.id declared-name(va)
+        else
+          j.id declared-name(va)
       else
         j.id declared-name(va)
     else
@@ -865,10 +876,21 @@ genjs = (node, opts = {}) ->
       j.expr j.assign-prop 'module', 'exports', j.id main-component.name!
 
   when n.react-component
+    state-vars = node.rns(n.react-state-var-r)
+    prop-vars  = node.rns(n.react-prop-var-r)
+    obj = {}
+    if state-vars.length > 0
+      initial-state = {}
+      for v in state-vars
+        if default-expr = v.rn(n.default-r)
+          initial-state[javascriptize-name(v.name!)] = genjs(default-expr)
+      obj.getInitialState = j.func-expr null, [], [],
+        j.return j.obj initial-state
+    obj.render = j.func-expr null, [], [],
+      with-option 'react', true, ->
+        genjs(node.rn(n.react-render-r)).body[0]
     j.callm 'React', 'createClass',
-      j.obj do
-        render: j.func-expr null, [], [],
-          genjs(node.rn(n.react-render-r)).body[0]
+      j.obj(obj)
 
   when n.react-html-elem
     g-props = {}
