@@ -1,109 +1,140 @@
-h2 Guide
+h2 Welcome to the Whilelse!
 
-h3 Keyboard commands
+p.
+  Please bear in mind that this project is in very early stage.
+  The purpose of the prototype is to give you a rough idea about
+  some aspects of the vision.
 
-h4 Legend
+p The user interface is mostly keyboard-driven so you need to develop a little muscle memory before it starts to feels right, just like when using VIM.
+
+p The first keyboard command you should know about is:
+
 ul
-  li [S-X] - Shift+X
-  li [C-X] - Control+X
-  li [A-X] - Alt+X
-  li [M-X] - Meta+X (Command/Win key)
-  li [C-A-S-X] - Control+Alt+Shift+X
+  li [U] - Undo
 
-h4 Global
+p If you encounter an error message, or something doesn't seem to work, try reloading the page. Also, if you can reproduce the error, please report it using the issue tracker, unless it's already there.
+
+h3 Hello World!
+
+p.
+  Create an application by pressing [A]
+  then type <tt>appl</tt> until <em>prog.application-node_type</em> shows up,
+  press [Enter], enter a name like <tt>hello</tt>, then [Enter].
+p.
+  You now have a blank application.
+  The red rectangle is the placeholder for any commands.
+  It's red because it's required.
+  It's called a <em>blank</em>.
+p Press [L] to start comp<strong>L</strong>eting the application.
+p.
+  Start typing <tt>log</tt> and select the log function
+  (this is a wrapper function for the JavaScript <code>console.log</code>).
+p.
+  Next, you can enter a parameter for this function.
+  Create a string literal <code>Hello World</code>.
+  To invoke the <em>string literal</em> part, press ['] (single quote),
+  then you enter the string.
+  Note that you don't need to close the quote,
+  every character entered after the <tt>'</tt> will be part of the string literal,
+  no escaping needed.
+  So type <tt>'Hello World!</tt> then press [Enter].
+p.
+  Your app is now ready. Let's run it.
+p.
+  Press [Shift-J] to bring up the export menu, then press [R] to run.
+  If you'd like to see the generated code: [Shift-J], [C].
+
+
+h3 Loops & variables
+
+p.
+  Let's create a simple loop and output <em>Hello 1, Hello 2, Hello 3</em>.
+p.
+  Currently the simplest way to navigate is with the mouse, but you can also use the keyboard.
+  In case you'd like to try that: [up]/[down] navigates through siblings (even if they're displayed horizontally).
+
 ul
-  li [B] or [C-right] - navigate back
-  li [S-B] or [C-left] - navigate forward
-  li [S] - search node and navigate...
-  li [S-G] - global commands...
-  li [C-H] - help sidebar
-  li [C-A-L] - log out
+  li [Alt-up]/[Alt-down] navigates through the tree with in <em>pre-order traversal</em>, think of it as navigating through a file tree explorer.
+  li [Esc] selects the parent,
+  li [Y] selects an ancestor of major significance, like a statement, function, application.
+p.
+  Select the log function call and press [Shift-A] to append a new sibling, i.e. create new statement after it.
+p.
+  Search and select the step command, which is a loop for iterating a variable between two numbers.
+p.
+  Next, you'll need a variable. Type <tt>i</tt> then, to create a variable called <code>i</code>, press [Control-V]. Notice that the variable is now declared above.
+p.
+  Enter literal <code>1</code> into the <em>from</em> slot, press [Tab] and <code>3</code> into the <em>to</em>.
+p.
+  Notice that the editor pauses on the literals instead of jumping right to the next blank. This is to give you a chance to apply operators, function calls, etc. before moving on to the next item.
+p.
+  Once you're on the loop body, create a function call to <code>log</code>, then enter a string <code>Hello </code> (with a trailing space). Remember you don't need to close the quote. When your string literal is ready and selected, press [+] (plus). This will bright up the search box and will search for operators and other things that can be applied to an expression. Press [Enter] on operator <em>add</em>.
+p.
+  Next, enter the second argument to the operation, which will be a variable reference. Simply type <tt>i</tt> and it should bring up the variable.
+p.
+  When you press [Tab], it will ask for the next statement of the loop. Just press [Esc].
+p.
+  Run the application with [Shift-J] [R].
 
-h4 Editor
+h3 Function
+
+p.
+  Let's declare a function inside this application.
+p.
+  Select the application node, press [A] (add child), then [D] (declaration), then [F] (function), and you will get a blank function.
+p.
+  [Enter] the name, square, then parameter name <code>x</code>, select integer with [I] (you can skip types with Tab). When asked for a second parameter, press [Tab]. For the return type <tt>select</tt> integer with [I].
+p.
+  In the function body, search for the return command, then in the argument select variable <code>x</code>, press [*] (asterisk), then variable <code>x</code> again.
+
+h3 Unit tests
+
+p.
+  It is possible to attach a simple unit test to a function.
+p.
+  Select the function node and press [Shift-T] to create and switch to the function's unit test. Press [L] to complete.
+p.
+  The testing UI needs more work, so make sure you do this: you can leave the name empty, but press [Enter], this will create the test case node. Next, enter a description, e.g. <tt>square of 2 is 4</tt>.
+p.
+  You now have to enter a series of statements just like before, and you can use assert with any boolean expression.
+p.
+  To add an assertion, search for the assert command. In the argument create the following: <code>square(2) == 4</code> (<tt>squ</tt> [Enter] <tt>2</tt> [Enter] [Esc] <tt>=</tt> [Enter] <tt>4</tt> [Enter])
+p.
+  Press [Shift-,] [T] to run the test.
+p.
+  You can toggle between the test and the function with [Shift-T].
+p.
+  Break the function to see how the test fails: select one of the <code>x</code> variable references, and press [Shift-W] to <em>unwrap</em> then, so you have return <code>x</code>. You can invoke the test from within the function the same way: [Shift-J] [T].
+p.
+  You should get <q>Test failed (1) square of 2 is 4: square(2) == 4;</q>
+p.
+  Press [U] a couple of times to undo your breaking change.
+
+h3 Array literals, each, callback functions
+p.
+  Add a new statement, search for the <code>each</code> command.
+p.
+  In the first argument, create an array: type <tt>[</tt> and make sure you select make_array. Then enter a couple of strings pressing [Tab] after each one. Press another [Tab] when you're finished.
+p.
+  In the second parameter of each you get an automatically generated callback function. Don't edit the signature of this function, becuase then the callback for every each call will have the same signature, as the signature is defined in each and all of them link there. This obviously needs work. For now, just skip over them with [Tab], or delete the whole function and create a new one.
+p.
+  In the body you can add a <code>log("Hello " + item)</code> to greet everyone.
+
+h3 Classes
+
+p.
+  You can define classes but there is no inheritance yet.
+p.
+  Classes can have <em>properties</em>, a <em>name</em> and a <em>data type</em>, a <em>constructor</em>, and <em>methods</em>, and you can use <code>this.</code> to reference a property or a method.
+p.
+  Feel free to experiment.
+p
+  | Here's a real example of a class, which is part of the implementation of Whilelse: 
+  a(href="/posi/frontend/acHEu1BNsqsF" data-native="true" ) Node class
 ul
-  li [S] - search
-  li [G] - go/navigate to... [P] parent
-  li [V] - change view...
-  li [B] - navigate back
+  li [F] <em<unfolds</em> methods and compubox properties
+  li [O] opens the node in a new view with
+  li [G] [P] navigates to the parent node
+p.
+  Also, have a look at the keyboard commands on the side panel. They can change depending on the current node type. Some of them have tooltips.
 
-  li [U] - undo
-
-  li [X] - cut node
-  li [P] - paste node into blank
-  li [D] - delete node
-  li [C-C] - copy
-  li [C-D] - duplicate
-  li [S-up] - move node backward within list
-  li [S-down] - move node forward within list
-  li [S-W] - unwrap node (i.e. replace parent with it)
-
-  li [Esc] - move cursor to parent
-  li [Y] - move cursor to an major ancestor (statement, function, module, etc)
-  li [H] - move cursor to child
-  li [J] - move cursor to next sibling
-  li [K] - move cursor to previous sibling
-  li [C] - move cursor...
-
-  li [F] - fold/unfold
-
-  li [S-J] - generate JavaScript code...
-  //-li [C-J] - generate JavaScript code into itself
-
-  //-li [S-I] - show html debug info
-  //-li [S-A-I] - hide html debug info
-  //-li [A-S-D] - clear local storage
-
-
-
-h4 Expression/Statement
-ul
-  li [I] - insert before statement
-  li [\] - start search and apply result to expression
-  li <kbd>[</kbd> - index an array
-  li [.] - field/method of struct/class
-  li [(] - call function expression
-  li <em>symbol</em> - apply operator to expression
-
-h4 Function
-ul
-  li [S-M] - edit native flag
-  li [S-E] - edit native code
-  li [S-A] - edit async flag
-  li [S-T] - navigate to test (creates test if none)
-
-h4 Function call
-ul
-  li [S-O] - open/navigate to function definition
-  li [S-P] - set/edit parameter
-
-h4 New (class instantiation)
-ul
-  li [S-L] - complete parameters
-  li [S-P] - set/edit parameter
-
-h4 Search/Entry box
-ul
-  li [C-V] - create variable & insert reference
-  li [C-F] - create function & insert function call
-  li [C-N] - native function call
-  li [C-E] - native expression
-  li [C-P] - native property
-
-h3 Creating a function
-ol
-  li select your 'workspace<container>' node
-  li Press [A] to add something to the module
-  li Press [C] to select 'contains'
-  li Type "func" in the search box, then press [Enter]
-  li Enter the function name, then press [Enter]
-  li Enter a parameter name, [Enter]
-  li Select data type, press [I] for integer
-  li Repeat the last 2 steps for each parameter, or press [Tab]
-  li Select return type, press [I] for integer, or [Tab] to skip
-  li If you want to declare a variable or function, press [V] or [F], otherwise press [Tab] to skip
-  li Start typing 'ret' and press [Enter] when the 'return' command is selected
-  li Type 'a' and press [Enter] when the 'a' variable is selected
-  li Type '+' then press [Enter]
-  li Type 'b' then press [Enter]
-  li Press [Y] [Y] to select the function
-  li Press [S-J] [J] to generate JavaScript code and display it

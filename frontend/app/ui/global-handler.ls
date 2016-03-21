@@ -41,35 +41,13 @@ module.exports = class GlobalHandler
           name: 'Help'
           group: 'nav'
           cmd: ->
-            sidebar = window.sidebar124 ?=
-              $el: $('#sidebar')
-              visible: true
-              replace-contents: ($c) ->
-                @$el.text('')
-                @$el.append $c
-              show: ->
-                @visible = true
-                @$el.show!
-                $('#layout').add-class('left-sidebar-open')
-              hide: ->
-                @visible = false
-                @$el.hide!
-                $('#layout').remove-class('left-sidebar-open')
-              toggle: ->
-                if @visible
-                  @hide!
-                else
-                  @show!
-
             if (($c = $('#guide')).length == 0)
-              $c = $('<div id="guide">')
-              console.log $c
+              $c = $('<div id="guide" class="sidebar">')
               GuideView = require '/modules/guide/view'
               $c.append (new GuideView()).render!
-              sidebar.replace-contents $c
-              sidebar.show!
+              $c.insert-before $('#main')
             else
-              sidebar.toggle!
+              $('#guide').toggle!
 
         * key: 'C-A-l'
           name: "Log out"

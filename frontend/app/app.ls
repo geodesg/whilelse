@@ -112,6 +112,12 @@ WorkspaceRouter = Backbone.Router.extend(
     view = new PosiView model: {workspace, id}
     ui.setMainView view
 
+    unless $('#guide').length > 0
+      $c = $('<div id="guide" class="sidebar">')
+      GuideView = require '/modules/guide/view'
+      $c.append (new GuideView()).render!
+      $c.insert-before $('#main')
+
 )
 router = new WorkspaceRouter
 window.router = router
@@ -138,7 +144,8 @@ module.exports = class App
       Backbone.history.start({pushState: true})
 
       $('a').live 'click', ->
-        router.navigate $(this).attr('href'), trigger: true
-        false
+        unless $(this).data('native')
+          router.navigate $(this).attr('href'), trigger: true
+          false
 
 

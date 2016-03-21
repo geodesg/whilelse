@@ -1,35 +1,59 @@
 #guide
-  line-height: 120%
-  font-size: 12px
+  background: #272727
+  border-left: solid 1px #333
+  font-size: 13px
+  flex: 0 0 24.5rem
+  padding-bottom: 40em
 
   kbd
     font-family: Monda
-    background: #222
+    background: #111
     padding: 0 0.25em
     min-width: 1em
     display: inline-block
     text-align: center
-    border: solid 1px #444
+    border: solid 1px #333
     border-radius: .25em
+    color: #3A9
 
   ol, ul
+    margin: 0
+    padding: 0
     li
       list-style-type: none
       counter-increment: list
       position: relative
-      &:before
-        content: counter(list) "."
-        position: absolute
-        left: -2.5em
-        width: 2em
-        text-align: right
-        color: #888
-        vertical-align: top
   ul
     li
-      &:before
-        content: "-"
 
   ol, ul
     li
       margin: .5em 0
+
+  h1, h2, h3
+    font-weight: normal
+    background: #393939
+    padding: 0.2em 0.5em
+    border-radius: 0.2em
+
+  h3
+    margin-top: 3em
+
+  tt
+    font-family: Monda
+    color: #7AC
+    letter-spacing: 1px
+    background: #171717
+    padding: 0 .5em
+    line-height: 1rem
+
+  code
+    font-family: Monda
+    color: #EA7
+    letter-spacing: 0
+    background: #222
+
+  em
+    font-style: normal
+    color: #DD6
+

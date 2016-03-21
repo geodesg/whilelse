@@ -12,6 +12,7 @@ module.exports = class GuideView extends Backbone.View
   template: (data) ->
     content = require("./template") data
     content = content.replace(/\[([^\]\[]+)\]/g, '<kbd>$1</kbd>')
+    #content = content.replace(/'([^ ]+)'/g, '<q>$1</q>')
     content
 
   generate: ->
