@@ -2,31 +2,41 @@ body
   margin: 0
   padding: 0
 
-#main, #sidebar, #keyboard
-  padding: 1em
+#layout
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+
   position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+
+#middle
+  flex-grow: 1
+  display: flex
+
+#main
+  flex-grow: 1
+
+#main, header, footer, .sidebar
+  overflow: auto
+  padding: 0.5rem
+header, footer, .sidebar
+  background: #333
+
+//#main, #sidebar, #keyboard
+  //padding: 1em
+  //position: fixed
 
 sidebarwidth=30em
 keyboardheight=0em
 
-#main
-  top: 0
-  right: 0
-  bottom: 0
-  left: 0
-  //background: linear-gradient(to left,
-  //  rgba(8,12,13,1) 0%,
-  //  rgba(1,13,1,1) 100%);
-
-#main
-  right: sidebarwidth
 
 #sidebar
   display: block
   background: #333
-  top: 0
-  right: 0
-  bottom: 0
   width: sidebarwidth
   overflow: auto
 
@@ -63,3 +73,19 @@ keyboardheight=0em
         right: 1.3cm
       &.left
         right: 2.4cm
+
+header
+  padding: 0
+  height: 1.8rem
+
+#logo
+  font-size: 18px
+  color: #999
+  //background: #222
+  background-image: url(/logo/logo-on-dark.png)
+  background-size: contain
+  background-repeat: no-repeat
+  background-position: center
+  display: inline-block
+  width: 6.2rem
+  height: 1.8rem
