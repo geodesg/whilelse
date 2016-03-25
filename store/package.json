@@ -11,5 +11,8 @@
   "dependencies": {
     "express": "^4.13.4",
     "prelude-ls": "^1.1.2"
+  },
+  "devDependencies": {
+    "livescript": "^1.4.0"
   }
 }
