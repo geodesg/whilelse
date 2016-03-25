@@ -619,6 +619,7 @@ module.exports = templates =
         line do
           o.part 'reference', node, o
           ref node, n.data-type-r, o, component-mode: 'reference', prefix: keyword '::'
+
       reference: (node, o) ->
         span 'prog-variable', name node, o
 

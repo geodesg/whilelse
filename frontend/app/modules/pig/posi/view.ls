@@ -22,7 +22,7 @@ PosiInfoView = require './info/view'
 human-info = include-generated 'utils/human-info'
 
 class PosiView extends Backbone.View
-  className: "posi"
+  id: "posi-container"
 
   initialize: ->
     {@workspace, @id} = @model
@@ -32,7 +32,7 @@ class PosiView extends Backbone.View
         $status = $('#status')
         if $status.length == 0
           $status = $('<div>').attr('id', 'status')
-          $('body').append($status)
+          $('#main > .posi').append($status)
         $status.text human-info(cursor.$currentElem)
 
   build: ->
@@ -98,11 +98,13 @@ class PosiView extends Backbone.View
     throw "No template for #{node.inspect!} mode:#{mode}"
 
   render: ->
+    @$el.html('<div id="posi"></div><div id="status"></div>')
+    $posi = @$el.find('#posi')
     console.log "RENDER"
     ni = @id
 
     loaded = false
-    setTimeout((~> @$el.html('Loading...') unless loaded), 200)
+    setTimeout((~> $posi.html('Loading...') unless loaded), 200)
 
     pig.load! .done ~> u.delay 1, ~> # delay to let @$el be inserted to the document first (when pig.load! resolves instantly)
       console.log "loaded"
@@ -116,7 +118,7 @@ class PosiView extends Backbone.View
 
         if @$el.closest('body').length == 0
           throw '@$el is not attached'
-        el = @$el.get(0)
+        el = $posi.get(0)
         el.innerHTML = ''
         #console.log "renderedNode", @renderNode node
         th.add-children el, @renderNode node
@@ -124,7 +126,7 @@ class PosiView extends Backbone.View
 
         posi.info = new PosiInfoView()
         posi.info.hide!
-        @$el.append(posi.info.render!)
+        $posi.append(posi.info.render!)
 
         #     # TEMP
         #     setTimeout do
