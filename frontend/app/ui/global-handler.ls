@@ -66,6 +66,15 @@ module.exports = class GlobalHandler
           name: 'Refresh keys'
           group: 'debug'
           cmd: -> ui.refreshKeyCommands!
+        * key: 'A-S-p'
+          name: 'Toggle panels'
+          group: 'debug'
+          cmd: ->
+            $els = $('header, footer, #guide, #sidebar')
+            if $('header').is(':visible')
+              $els.hide!
+            else
+              $els.show!
 
   handleGlobalCommands: ->
     ui.choose do
