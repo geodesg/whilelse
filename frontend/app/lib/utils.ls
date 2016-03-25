@@ -523,7 +523,7 @@ module.exports = u = window.u =
           # This is the last message, new message will be displayed at the top
           u._show-message-count = 0
           $ctnr.text ''
-      10000
+      3000
 
   lget: (name) -> local-storage.get-item name
   lset: (name, value) -> local-storage.set-item name, value
