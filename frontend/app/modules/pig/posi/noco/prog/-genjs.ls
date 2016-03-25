@@ -613,6 +613,9 @@ genjs = (node, opts = {}) ->
   when n.disable
     type: 'EmptyStatement'
 
+  when n.struct-type
+    null
+
   when n.node-id-literal
     j.lit node.rn(n.refs)?.ni
 
