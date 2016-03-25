@@ -2,9 +2,12 @@
 that aims to simplify programming by representing code as a graph instead
 of plain text and providing an efficient keyboard-centric editor.
 
+**[whilelse.com](http://whilelse.com)**
+
 ## Getting started
 
-[Getting Started Guide](docs/getting-started.md)
+The easiest way to get started is the [online
+demo](http://app.whilelse.com). It has a step-by-step guide.
 
 ## Running on a development machine
 
