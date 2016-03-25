@@ -55,6 +55,7 @@ create-if-not-exists = (path, document, cont-cb) ->
       ["dep",{"name":"lib"}]
       ["dep",{"name":"testing"}]
       ["dep",{"name":"web"}]
+      ["dep",{"name":"react"}]
       ["comp",{"ri":"ac#{random-string!}","sni":"9","rti":"8","ni":"ac#{random-string!}","nti":"7","name":"#{document}-workspace"}]
     ]
     data = cmds |> map ((c) -> "#{JSON.stringify(c)}\n") |> join ''
