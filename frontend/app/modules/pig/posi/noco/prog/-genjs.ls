@@ -60,7 +60,7 @@ genjs = (node, opts = {}) ->
     g-params = params |> map (param) ->
         j.id declared-name param
 
-    if node.a(n.async-a)
+    if node.a(n.async-a) || opts.async
       #g-func-body = j.block j.expr j.callf '__ASYNC', g-func-body
       g-params.push j.id '__ASYNC'
 
@@ -741,7 +741,7 @@ genjs = (node, opts = {}) ->
                       }
                     '''
                     parse-statement '''console.log("Coerced Request:", coercedRequest);'''
-                    j.var 'f', genjs(endpoint.func-node, as: 'expression')
+                    j.var 'f', genjs(endpoint.func-node, as: 'expression', async: true)
                     j.var 'result', j.callf '__AWAIT', j.callf 'f', ...([0 to (endpoint.func-node.rn(n.function-signature-r).rns(n.parameter-r).length - 1)] |> map (i) -> j.index(j.id('coercedRequest'), j.lit(i)))
                     ...parse-statements '''
                       if (result._data_type == 'web/response-struct_type') {

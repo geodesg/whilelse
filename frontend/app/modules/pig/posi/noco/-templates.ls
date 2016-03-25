@@ -1178,7 +1178,7 @@ module.exports = templates =
       full: (node, o) ->
         line do
           div 'web-route', space!
-          join do
+          div null,
             ref node, n.web-endpoint-r, o
             ref node, n.web-subpath-r, o
 
